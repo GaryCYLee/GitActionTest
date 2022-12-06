@@ -177,6 +177,7 @@ BOOL GetProcessPathByPID(DWORD dwPID, std::wstring& wstrProcessPath)
 
 int main()
 {
+    //ADS
     char szBuffer[100];
     szBuffer[0] = 'A';
     szBuffer[1] = 'B';
