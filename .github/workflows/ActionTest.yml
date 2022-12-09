@@ -2,7 +2,7 @@ name: MSBuild
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "YAMLTEST" ]
   pull_request:
     branches: [ "main" ]
 
