@@ -1,4 +1,4 @@
-// ConsoleApplication1.cpp : This file contains the 'main' function. Program execution begins and ends there.
+﻿// ConsoleApplication1.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
 #include <Windows.h>
@@ -18,66 +18,8 @@
 
 using namespace std;
 namespace fs = filesystem;
-VOID __stdcall DoEnableSvc(LPCWSTR szSvcName, DWORD dwStartType)
-{
-    SC_HANDLE schSCManager;
-    SC_HANDLE schService;
 
-    // Get a handle to the SCM database. 
-
-    schSCManager = OpenSCManager(
-        NULL,                    // local computer
-        NULL,                    // ServicesActive database 
-        SC_MANAGER_ALL_ACCESS);  // full access rights 
-
-    if (NULL == schSCManager)
-    {
-        printf("OpenSCManager failed (%d)\n", GetLastError());
-        return;
-    }
-
-    // Get a handle to the service.
-
-    schService = OpenService(
-        schSCManager,            // SCM database 
-        szSvcName,               // name of service 
-        SERVICE_CHANGE_CONFIG);  // need change config access 
-
-    if (schService == NULL)
-    {
-        printf("OpenService failed (%d)\n", GetLastError());
-        CloseServiceHandle(schSCManager);
-        return;
-    }
-
-    // Change the service start type.
-
-    if (!ChangeServiceConfig(
-        schService,        // handle of service 
-        SERVICE_NO_CHANGE, // service type: no change 
-        dwStartType,  // service start type 
-        SERVICE_NO_CHANGE, // error control: no change 
-        NULL,              // binary path: no change 
-        NULL,              // load order group: no change 
-        NULL,              // tag ID: no change 
-        NULL,              // dependencies: no change 
-        NULL,              // account name: no change 
-        NULL,              // password: no change 
-        NULL))            // display name: no change
-    {
-        printf("ChangeServiceConfig failed (%d)\n", GetLastError());
-    }
-    else printf("Service disabled successfully.\n");
-
-    CloseServiceHandle(schService);
-    CloseServiceHandle(schSCManager);
-}
-
-#define _REG_TMBMSRV_SERVICE_REG_PATH           _T("SYSTEM\\CurrentControlSet\\Services\\AOTAgentSvc")
-#define _REG_CURCTLSET_SVC_REG_PATH             _T("SYSTEM\\CurrentControlSet\\Services\\")
-#define REG32(X) (X | KEY_WOW64_32KEY)
-
-const std::string currentDateTime() {
+const string currentDateTime() {
     time_t     now = time(0);
     struct tm  tstruct;
     char       buf[80];
@@ -87,24 +29,15 @@ const std::string currentDateTime() {
     return buf;
 }
 
-void tmntWriteTelemetryLogWithoutLogService(const char* content)
-{
-    std::string filename("C://TelLog.log");
-    std::ofstream file_out;
-
-    file_out.open(filename, std::ios_base::app);
-    file_out << currentDateTime() << content << std::endl;
-    file_out.close();
-}
 typedef struct _DRIVER_PROTECTED_ITEM
 {
     ULONG ulType;
-    std::wstring wstrPath;
+    wstring wstrPath;
 } DRIVER_PROTECTED_ITEM, * PDRIVER_PROTECTED_ITEM;
 
 DWORD WINAPI ThreadFunc(LPVOID pParam) {
     TCHAR* filename = (TCHAR*)pParam;
-    std::wstring strFile = &filename[0];
+    wstring strFile = &filename[0];
     //Sleep(20000);
 
     return 0;
@@ -118,20 +51,20 @@ void CopyRecursive(const fs::path& src, const fs::path& target) noexcept
     {
         fs::copy(src, target, fs::copy_options::overwrite_existing | fs::copy_options::recursive);
     }
-    catch (std::exception& e)
+    catch (exception& e)
     {
-        std::cout << e.what();
+        cout << e.what();
     }
 }
 
-std::wstring ExePath() {
+wstring ExePath() {
     TCHAR buffer[MAX_PATH] = { 0 };
     GetModuleFileName(NULL, buffer, MAX_PATH);
-    std::wstring::size_type pos = std::wstring(buffer).find_last_of(L"\\/");
-    return std::wstring(buffer).substr(0, pos);
+    wstring::size_type pos = wstring(buffer).find_last_of(L"\\/");
+    return wstring(buffer).substr(0, pos);
 }
 
-BOOL GetProcessPathByPID(DWORD dwPID, std::wstring& wstrProcessPath)
+BOOL GetProcessPathByPID(DWORD dwPID, wstring& wstrProcessPath)
 {
     BOOL bFound = FALSE;
 
@@ -175,18 +108,41 @@ BOOL GetProcessPathByPID(DWORD dwPID, std::wstring& wstrProcessPath)
     return bFound;
 }
 
-int main()
+#include <fstream>
+int main(int argc, char* argv[])
 {
-    //ADS
-    char szBuffer[100];
-    szBuffer[0] = 'A';
-    szBuffer[1] = 'B';
-    szBuffer[2] = 'C';
-    szBuffer[3] = 'D';
-    szBuffer[4] = 'E';
-    char szBuffer2[100];
-    memcpy((void*)szBuffer2, (void*)szBuffer, 5);
+    if (argc != 4)
+    {
+        cout << "arg error" << endl;
+        return 0;
+    }
 
+    ifstream ifs(argv[1], ifstream::in);
+    string tempstr;
+    string str;
+    while (getline(ifs, tempstr))
+    {
+        str += tempstr;
+        str += "\n";
+    }
+    cout << str << endl;
+    ifs.close();
+
+    string tokentoreplace = argv[2];
+    string contenttoreplace = argv[3];
+    int pos = 0;
+    while (1) {
+        pos = str.find(tokentoreplace, pos);
+        if (pos == -1) break;
+
+        str.replace(pos, tokentoreplace.length(), contenttoreplace);
+        pos += contenttoreplace.length();
+    }
+    cout << str << endl;
+
+    ofstream ofs(argv[1]);
+    ofs << str;
+    ofs.close();
 
     string sssss = "Check";
     if (sssss == "Check")
@@ -226,12 +182,12 @@ int main()
     //printf("123");
     //
     //
-    //std::wstring strFile = L"C:\\Ntrtscan.exe";
+    //wstring strFile = L"C:\\Ntrtscan.exe";
     //TCHAR cmd[MAX_PATH];
     //swprintf_s(cmd, L"del /f %s", strFile.c_str());
     //int ret = _wsystem(cmd);
 
-    std::wstring strFile2 = L"ASDFG";
+    wstring strFile2 = L"ASDFG";
     TCHAR pstrFile[MAX_PATH];
     swprintf_s(pstrFile, L"del /f %s", strFile2.c_str());
 
@@ -241,7 +197,7 @@ int main()
         DWORD dwRethInitLogServer = WaitForSingleObject(hThread, 10000);
         if (dwRethInitLogServer == WAIT_TIMEOUT)
         {
-            std::wstring strFile123 = L"ASDFG";
+            wstring strFile123 = L"ASDFG";
         }
         CloseHandle(hThread);
     }
@@ -249,25 +205,25 @@ int main()
     HANDLE hFile = CreateFile(L"C:\\Ntrtscan.exe", GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, CREATE_ALWAYS, FILE_FLAG_DELETE_ON_CLOSE, NULL);
     
     CloseHandle(hFile);
-    std::wstring wstrTMicroDir = L"C:\\Program Files (x86)\\Trend Micro\\Security Agent\\";
+    wstring wstrTMicroDir = L"C:\\Program Files (x86)\\Trend Micro\\Security Agent\\";
     wstrTMicroDir = wstrTMicroDir.substr(0, wstrTMicroDir.size() - 1);
     wstrTMicroDir = wstrTMicroDir.substr(0, wstrTMicroDir.find_last_of(L"\\") + 1);
 
-    std::wstring wstrSAgentDir = wstrTMicroDir + L"Security Agent";
-    std::wstring wstrBMDir = wstrTMicroDir + L"BM";
-    std::wstring wstriServiceDir = wstrTMicroDir + L"iService";
+    wstring wstrSAgentDir = wstrTMicroDir + L"Security Agent";
+    wstring wstrBMDir = wstrTMicroDir + L"BM";
+    wstring wstriServiceDir = wstrTMicroDir + L"iService";
 
 
 
-    std::wstring wwss = L"C:\\Program Files (x86)\\Trend Micro\\Security Agent\\";
+    wstring wwss = L"C:\\Program Files (x86)\\Trend Micro\\Security Agent\\";
     wwss = wwss.substr(0, wwss.size() - 1);
     wwss = wwss.substr(0, wwss.find_last_of(L"\\"));
 
 
-    std::wstring wstrClientDir = L"ABC\DEF";
+    wstring wstrClientDir = L"ABC\DEF";
     wprintf(L"%s", wstrClientDir.c_str());
 
-    std::unordered_set<std::wstring> s;
+    unordered_set<wstring> s;
     WCHAR szRegKey[MAX_PATH];
     WCHAR szRegKey2[MAX_PATH];
     WCHAR szRegKey3[MAX_PATH];
@@ -277,10 +233,10 @@ int main()
     swprintf_s(szRegKey3, L"HKLM\\SOFTWARE\\TrendMicro\\iACAgent\\*");
     swprintf_s(szRegKey4, L"HKLM\\SOFTWARE\\Wow6432Node\\TrendMicro\\PC-cillinNTCorp\\*");
 
-    std::wstring w1 = &szRegKey[0];
-    std::wstring w2 = &szRegKey2[0];
-    std::wstring w3 = &szRegKey3[0];
-    std::wstring w4 = &szRegKey4[0];
+    wstring w1 = &szRegKey[0];
+    wstring w2 = &szRegKey2[0];
+    wstring w3 = &szRegKey3[0];
+    wstring w4 = &szRegKey4[0];
 
     if (w2.substr(w2.size() - 1) == L"\\")
     {
@@ -303,17 +259,17 @@ int main()
     s.insert(w4);
 
 
-    std::list<DRIVER_PROTECTED_ITEM> m_listProtectedItems;
-    std::list<std::wstring> l;
-    for (std::unordered_set<std::wstring>::iterator itr = s.begin(); itr != s.end(); ++itr) {
+    list<DRIVER_PROTECTED_ITEM> m_listProtectedItems;
+    list<wstring> l;
+    for (unordered_set<wstring>::iterator itr = s.begin(); itr != s.end(); ++itr) {
 
         m_listProtectedItems.push_back({ 4, *itr });
         wstring val = *itr;
         wprintf(L"%s", val.c_str());
-        //std::wcout << " " << *itr;
+        //wcout << " " << *itr;
     }
 
-    std::list<std::wstring> li;
+    list<wstring> li;
     li.push_back(L"ASD");
     li.push_back(L"ASD");
 
@@ -322,7 +278,7 @@ int main()
     const WCHAR* wszSpyGrayReadOpID = L"531";
     const WCHAR* wszSpyGrayWriteOpID = L"532";
 
-    if (wstrDomainRba.find(wszSpyGrayReadOpID) != std::wstring::npos && wstrDomainRba.find(wszSpyGrayWriteOpID) != std::wstring::npos)
+    if (wstrDomainRba.find(wszSpyGrayReadOpID) != wstring::npos && wstrDomainRba.find(wszSpyGrayWriteOpID) != wstring::npos)
     {
         int a = 0;
     }
@@ -334,9 +290,6 @@ int main()
     a = (a << 1);
     a = (a << 1);
 
-
-    tmntWriteTelemetryLogWithoutLogService("My");
-
     wstring wtrValue;
     wtrValue = L"00";
     if (wtrValue == L"00")
@@ -346,55 +299,6 @@ int main()
     {
         printf("123");
     }
-
-
-
-
-    vector<wstring> test;
-    test.push_back(_REG_TMBMSRV_SERVICE_REG_PATH);
-    wstring svcname = test[0].substr(test[0].find_last_of(L"\\")+1);
-    HKEY hKeyService = NULL;
-    LONG reto = RegOpenKeyEx(HKEY_LOCAL_MACHINE, _REG_CURCTLSET_SVC_REG_PATH, 0, REG32(KEY_NOTIFY | KEY_READ), &hKeyService);
-    if (reto != ERROR_SUCCESS)
-    {
-        //DLOG(SD_SEG_ERROR, _T("Failed to Open key %s, function return code: %d"), _REG_CURCTLSET_SVC_REG_PATH, ret);
-    }
-    HANDLE hRegChangeEventService = CreateEvent(NULL, TRUE, FALSE, NULL);
-    if (hRegChangeEventService == NULL)
-    {
-        //DLOG(SD_SEG_ERROR, L"fail to create event, Windows error code: %d", GetLastError());
-    }
-
-    {
-        HANDLE hEvents[] = { hRegChangeEventService };
-        LONG lStatus = RegNotifyChangeKeyValue(hKeyService, TRUE, REG_NOTIFY_CHANGE_LAST_SET, hRegChangeEventService, TRUE);
-
-
-        BOOL bLoop = TRUE;
-        while (bLoop)
-        {
-            DWORD waitRet = WaitForMultipleObjects(_countof(hEvents), hEvents, FALSE, INFINITE);
-
-            switch (waitRet)
-            {
-            case WAIT_OBJECT_0:
-                DoEnableSvc(svcname.c_str(), SERVICE_AUTO_START);
-                bLoop = FALSE;
-                break;
-            case WAIT_OBJECT_0 + 1:
-            break;
-            case WAIT_OBJECT_0 + 2:
-                break;
-            }
-        }
-    }
-
-
-
-
-
-    DoEnableSvc(svcname.c_str(), SERVICE_AUTO_START);
-    
 
     //Service test
     SC_HANDLE schSCManager;
@@ -431,7 +335,7 @@ int main()
     }
 
 
-
+    return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
