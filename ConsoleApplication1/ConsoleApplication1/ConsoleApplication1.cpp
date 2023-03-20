@@ -111,44 +111,53 @@ BOOL GetProcessPathByPID(DWORD dwPID, wstring& wstrProcessPath)
 #include <fstream>
 int main(int argc, char* argv[])
 {
-    if (argc != 4)
-    {
-        cout << "arg error" << endl;
-        return 0;
-    }
+    TCHAR buffer[MAX_PATH];
+    GetModuleFileName(NULL, buffer, MAX_PATH);
+    std::wstring exePath(buffer);
+    std::wstring exeDir = exePath.substr(0, exePath.find_last_of(L"\\") + 1);
 
-    ifstream ifs(argv[1], ifstream::in);
-    string tempstr;
-    string str;
-    while (getline(ifs, tempstr))
-    {
-        str += tempstr;
-        str += "\n";
-    }
-    cout << str << endl;
-    ifs.close();
+    std::wstring bPath = exeDir + L"EndpointBasecamp.exe";
+    int retval3 = ::_tsystem(bPath.c_str());
 
-    string tokentoreplace = argv[2];
-    string contenttoreplace = argv[3];
-    int pos = 0;
-    while (1) {
-        pos = str.find(tokentoreplace, pos);
-        if (pos == -1) break;
+    std::wstring aPath = exeDir + L"Bootstrapper1.exe /s";
+    int retval4 = ::_tsystem(aPath.c_str());
+    
 
-        str.replace(pos, tokentoreplace.length(), contenttoreplace);
-        pos += contenttoreplace.length();
-    }
-    cout << str << endl;
 
-    ofstream ofs(argv[1]);
-    ofs << str;
-    ofs.close();
 
-    string sssss = "Check";
-    if (sssss == "Check")
-    {
-        int bbbbbb = 0;
-    }
+
+    //ifstream ifs(argv[1], ifstream::in);
+    //string tempstr;
+    //string str;
+    //while (getline(ifs, tempstr))
+    //{
+    //    str += tempstr;
+    //    str += "\n";
+    //}
+    //cout << str << endl;
+    //ifs.close();
+    //
+    //string tokentoreplace = argv[2];
+    //string contenttoreplace = argv[3];
+    //int pos = 0;
+    //while (1) {
+    //    pos = str.find(tokentoreplace, pos);
+    //    if (pos == -1) break;
+    //
+    //    str.replace(pos, tokentoreplace.length(), contenttoreplace);
+    //    pos += contenttoreplace.length();
+    //}
+    //cout << str << endl;
+    //
+    //ofstream ofs(argv[1]);
+    //ofs << str;
+    //ofs.close();
+    //
+    //string sssss = "Check";
+    //if (sssss == "Check")
+    //{
+    //    int bbbbbb = 0;
+    //}
     //wstring p = L"";
     //GetProcessPathByPID(16524, p);
     //
