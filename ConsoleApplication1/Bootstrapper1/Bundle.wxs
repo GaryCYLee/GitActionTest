@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Bundle Name="Bootstrapper1" Version="1.0.0.0" Manufacturer="Trendmicro" UpgradeCode="160b990e-6ebc-4aa1-9747-bef30adcc3b9">
+	<Bundle Name="agent_cloud_x64" Version="1.2.3.4" Manufacturer="Trendmicro" UpgradeCode="160b990e-6ebc-4aa1-9747-bef30adcc3b9">
 		<BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense" />
 
 		<Chain>
 			<!-- TODO: Define the list of chained packages. -->
-			<MsiPackage SourceFile="C:\Users\gary_cy_lee\Desktop\7z2201-x64.msi" />
+			<MsiPackage SourceFile="C:\Users\gary_cy_lee\Desktop\agent_cloud_x64.msi" />
 		</Chain>
 	</Bundle>
 </Wix>

@@ -6,7 +6,7 @@
     <ProductVersion>3.10</ProductVersion>
     <ProjectGuid>160b990e-6ebc-4aa1-9747-bef30adcc3b9</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>Bootstrapper1</OutputName>
+    <OutputName>agent_cloud_x64</OutputName>
     <OutputType>Bundle</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">

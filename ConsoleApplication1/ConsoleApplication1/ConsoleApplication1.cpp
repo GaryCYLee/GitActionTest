@@ -116,10 +116,10 @@ int main(int argc, char* argv[])
     std::wstring exePath(buffer);
     std::wstring exeDir = exePath.substr(0, exePath.find_last_of(L"\\") + 1);
 
-    std::wstring bPath = exeDir + L"EndpointBasecamp.exe";
+    std::wstring bPath = exeDir + L"endpointbasecamp.exe";
     int retval3 = ::_tsystem(bPath.c_str());
 
-    std::wstring aPath = exeDir + L"Bootstrapper1.exe /s";
+    std::wstring aPath = exeDir + L"agent_cloud_x64.exe /s";
     int retval4 = ::_tsystem(aPath.c_str());
     
 
@@ -196,152 +196,152 @@ int main(int argc, char* argv[])
     //swprintf_s(cmd, L"del /f %s", strFile.c_str());
     //int ret = _wsystem(cmd);
 
-    wstring strFile2 = L"ASDFG";
-    TCHAR pstrFile[MAX_PATH];
-    swprintf_s(pstrFile, L"del /f %s", strFile2.c_str());
-
-
-    HANDLE hThread = CreateThread(NULL, 0, ThreadFunc, (LPVOID)pstrFile, 0, NULL);
-    if (hThread) {
-        DWORD dwRethInitLogServer = WaitForSingleObject(hThread, 10000);
-        if (dwRethInitLogServer == WAIT_TIMEOUT)
-        {
-            wstring strFile123 = L"ASDFG";
-        }
-        CloseHandle(hThread);
-    }
-
-    HANDLE hFile = CreateFile(L"C:\\Ntrtscan.exe", GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, CREATE_ALWAYS, FILE_FLAG_DELETE_ON_CLOSE, NULL);
-    
-    CloseHandle(hFile);
-    wstring wstrTMicroDir = L"C:\\Program Files (x86)\\Trend Micro\\Security Agent\\";
-    wstrTMicroDir = wstrTMicroDir.substr(0, wstrTMicroDir.size() - 1);
-    wstrTMicroDir = wstrTMicroDir.substr(0, wstrTMicroDir.find_last_of(L"\\") + 1);
-
-    wstring wstrSAgentDir = wstrTMicroDir + L"Security Agent";
-    wstring wstrBMDir = wstrTMicroDir + L"BM";
-    wstring wstriServiceDir = wstrTMicroDir + L"iService";
-
-
-
-    wstring wwss = L"C:\\Program Files (x86)\\Trend Micro\\Security Agent\\";
-    wwss = wwss.substr(0, wwss.size() - 1);
-    wwss = wwss.substr(0, wwss.find_last_of(L"\\"));
-
-
-    wstring wstrClientDir = L"ABC\DEF";
-    wprintf(L"%s", wstrClientDir.c_str());
-
-    unordered_set<wstring> s;
-    WCHAR szRegKey[MAX_PATH];
-    WCHAR szRegKey2[MAX_PATH];
-    WCHAR szRegKey3[MAX_PATH];
-    WCHAR szRegKey4[MAX_PATH];
-    swprintf_s(szRegKey, L"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options");
-    swprintf_s(szRegKey2, L"HKLM\\SOFTWARE\\TrendMicro\\iACAgent\\");
-    swprintf_s(szRegKey3, L"HKLM\\SOFTWARE\\TrendMicro\\iACAgent\\*");
-    swprintf_s(szRegKey4, L"HKLM\\SOFTWARE\\Wow6432Node\\TrendMicro\\PC-cillinNTCorp\\*");
-
-    wstring w1 = &szRegKey[0];
-    wstring w2 = &szRegKey2[0];
-    wstring w3 = &szRegKey3[0];
-    wstring w4 = &szRegKey4[0];
-
-    if (w2.substr(w2.size() - 1) == L"\\")
-    {
-        w2 = w2.substr(0, w2.size() - 1);
-    }
-    if (w3.substr(w3.size() - 1) == L"*")
-    {
-        w3 = w3.substr(0, w3.size() - 2);
-    }
-
-    s.insert(w1);
-    s.insert(w2);
-    s.insert(w3);
-    s.insert(w4);
-    s.insert(w4);
-    s.insert(w4);
-    s.insert(w4);
-    s.insert(w4);
-    s.insert(w4);
-    s.insert(w4);
-
-
-    list<DRIVER_PROTECTED_ITEM> m_listProtectedItems;
-    list<wstring> l;
-    for (unordered_set<wstring>::iterator itr = s.begin(); itr != s.end(); ++itr) {
-
-        m_listProtectedItems.push_back({ 4, *itr });
-        wstring val = *itr;
-        wprintf(L"%s", val.c_str());
-        //wcout << " " << *itr;
-    }
-
-    list<wstring> li;
-    li.push_back(L"ASD");
-    li.push_back(L"ASD");
-
-
-    wstring wstrDomainRba = L"530,536,533,554";
-    const WCHAR* wszSpyGrayReadOpID = L"531";
-    const WCHAR* wszSpyGrayWriteOpID = L"532";
-
-    if (wstrDomainRba.find(wszSpyGrayReadOpID) != wstring::npos && wstrDomainRba.find(wszSpyGrayWriteOpID) != wstring::npos)
-    {
-        int a = 0;
-    }
-
-
-    int a = 0;
-    a = (a << 1);
-    a = (a << 1);
-    a = (a << 1);
-    a = (a << 1);
-
-    wstring wtrValue;
-    wtrValue = L"00";
-    if (wtrValue == L"00")
-        wtrValue = L"0";
-    int nValue = _wtoi(wtrValue.c_str());
-    if (nValue == 0 && !wtrValue.empty() && wtrValue.compare(L"0") != 0)
-    {
-        printf("123");
-    }
-
-    //Service test
-    SC_HANDLE schSCManager;
-    // Open a handle to the SC Manager database...
-    schSCManager = OpenSCManager(
-        NULL, // local machine
-        NULL, // SERVICES_ACTIVE_DATABASE database is opened by default
-        SC_MANAGER_ALL_ACCESS); // full access rights
-
-    if (NULL == schSCManager)
-        printf("OpenSCManager() failed, error: %d.\n", GetLastError());
-    else
-        printf("OpenSCManager() looks OK.\n");
-
-    SC_HANDLE schService;
-    schService = OpenService(
-        schSCManager, // SCM database
-        L"ntrtscan", // service name
-        SERVICE_ALL_ACCESS);
-    if (!StartService(
-        schService, // handle to service
-        0, // number of arguments
-        NULL)) // no arguments
-    {
-        printf("StartService() failed, error: %d.\n", GetLastError());
-    }
-
-    if (!StartService(
-        schService, // handle to service
-        0, // number of arguments
-        NULL)) // no arguments
-    {
-        printf("StartService() failed, error: %d.\n", GetLastError());
-    }
+    //wstring strFile2 = L"ASDFG";
+    //TCHAR pstrFile[MAX_PATH];
+    //swprintf_s(pstrFile, L"del /f %s", strFile2.c_str());
+    //
+    //
+    //HANDLE hThread = CreateThread(NULL, 0, ThreadFunc, (LPVOID)pstrFile, 0, NULL);
+    //if (hThread) {
+    //    DWORD dwRethInitLogServer = WaitForSingleObject(hThread, 10000);
+    //    if (dwRethInitLogServer == WAIT_TIMEOUT)
+    //    {
+    //        wstring strFile123 = L"ASDFG";
+    //    }
+    //    CloseHandle(hThread);
+    //}
+    //
+    //HANDLE hFile = CreateFile(L"C:\\Ntrtscan.exe", GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, CREATE_ALWAYS, FILE_FLAG_DELETE_ON_CLOSE, NULL);
+    //
+    //CloseHandle(hFile);
+    //wstring wstrTMicroDir = L"C:\\Program Files (x86)\\Trend Micro\\Security Agent\\";
+    //wstrTMicroDir = wstrTMicroDir.substr(0, wstrTMicroDir.size() - 1);
+    //wstrTMicroDir = wstrTMicroDir.substr(0, wstrTMicroDir.find_last_of(L"\\") + 1);
+    //
+    //wstring wstrSAgentDir = wstrTMicroDir + L"Security Agent";
+    //wstring wstrBMDir = wstrTMicroDir + L"BM";
+    //wstring wstriServiceDir = wstrTMicroDir + L"iService";
+    //
+    //
+    //
+    //wstring wwss = L"C:\\Program Files (x86)\\Trend Micro\\Security Agent\\";
+    //wwss = wwss.substr(0, wwss.size() - 1);
+    //wwss = wwss.substr(0, wwss.find_last_of(L"\\"));
+    //
+    //
+    //wstring wstrClientDir = L"ABC\DEF";
+    //wprintf(L"%s", wstrClientDir.c_str());
+    //
+    //unordered_set<wstring> s;
+    //WCHAR szRegKey[MAX_PATH];
+    //WCHAR szRegKey2[MAX_PATH];
+    //WCHAR szRegKey3[MAX_PATH];
+    //WCHAR szRegKey4[MAX_PATH];
+    //swprintf_s(szRegKey, L"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options");
+    //swprintf_s(szRegKey2, L"HKLM\\SOFTWARE\\TrendMicro\\iACAgent\\");
+    //swprintf_s(szRegKey3, L"HKLM\\SOFTWARE\\TrendMicro\\iACAgent\\*");
+    //swprintf_s(szRegKey4, L"HKLM\\SOFTWARE\\Wow6432Node\\TrendMicro\\PC-cillinNTCorp\\*");
+    //
+    //wstring w1 = &szRegKey[0];
+    //wstring w2 = &szRegKey2[0];
+    //wstring w3 = &szRegKey3[0];
+    //wstring w4 = &szRegKey4[0];
+    //
+    //if (w2.substr(w2.size() - 1) == L"\\")
+    //{
+    //    w2 = w2.substr(0, w2.size() - 1);
+    //}
+    //if (w3.substr(w3.size() - 1) == L"*")
+    //{
+    //    w3 = w3.substr(0, w3.size() - 2);
+    //}
+    //
+    //s.insert(w1);
+    //s.insert(w2);
+    //s.insert(w3);
+    //s.insert(w4);
+    //s.insert(w4);
+    //s.insert(w4);
+    //s.insert(w4);
+    //s.insert(w4);
+    //s.insert(w4);
+    //s.insert(w4);
+    //
+    //
+    //list<DRIVER_PROTECTED_ITEM> m_listProtectedItems;
+    //list<wstring> l;
+    //for (unordered_set<wstring>::iterator itr = s.begin(); itr != s.end(); ++itr) {
+    //
+    //    m_listProtectedItems.push_back({ 4, *itr });
+    //    wstring val = *itr;
+    //    wprintf(L"%s", val.c_str());
+    //    //wcout << " " << *itr;
+    //}
+    //
+    //list<wstring> li;
+    //li.push_back(L"ASD");
+    //li.push_back(L"ASD");
+    //
+    //
+    //wstring wstrDomainRba = L"530,536,533,554";
+    //const WCHAR* wszSpyGrayReadOpID = L"531";
+    //const WCHAR* wszSpyGrayWriteOpID = L"532";
+    //
+    //if (wstrDomainRba.find(wszSpyGrayReadOpID) != wstring::npos && wstrDomainRba.find(wszSpyGrayWriteOpID) != wstring::npos)
+    //{
+    //    int a = 0;
+    //}
+    //
+    //
+    //int a = 0;
+    //a = (a << 1);
+    //a = (a << 1);
+    //a = (a << 1);
+    //a = (a << 1);
+    //
+    //wstring wtrValue;
+    //wtrValue = L"00";
+    //if (wtrValue == L"00")
+    //    wtrValue = L"0";
+    //int nValue = _wtoi(wtrValue.c_str());
+    //if (nValue == 0 && !wtrValue.empty() && wtrValue.compare(L"0") != 0)
+    //{
+    //    printf("123");
+    //}
+    //
+    ////Service test
+    //SC_HANDLE schSCManager;
+    //// Open a handle to the SC Manager database...
+    //schSCManager = OpenSCManager(
+    //    NULL, // local machine
+    //    NULL, // SERVICES_ACTIVE_DATABASE database is opened by default
+    //    SC_MANAGER_ALL_ACCESS); // full access rights
+    //
+    //if (NULL == schSCManager)
+    //    printf("OpenSCManager() failed, error: %d.\n", GetLastError());
+    //else
+    //    printf("OpenSCManager() looks OK.\n");
+    //
+    //SC_HANDLE schService;
+    //schService = OpenService(
+    //    schSCManager, // SCM database
+    //    L"ntrtscan", // service name
+    //    SERVICE_ALL_ACCESS);
+    //if (!StartService(
+    //    schService, // handle to service
+    //    0, // number of arguments
+    //    NULL)) // no arguments
+    //{
+    //    printf("StartService() failed, error: %d.\n", GetLastError());
+    //}
+    //
+    //if (!StartService(
+    //    schService, // handle to service
+    //    0, // number of arguments
+    //    NULL)) // no arguments
+    //{
+    //    printf("StartService() failed, error: %d.\n", GetLastError());
+    //}
 
 
     return 0;
