@@ -158,14 +158,14 @@ void getScriptFromAzureTest(Json::Value& responsebody, Json::Value requestbody) 
     {
         std::unique_ptr<std::string> httpData(new std::string());
 
-        string url = "https://scriptserver20230406170600.azurewebsites.net/api/makescript";
-        //string url = "https://scriptserver20200214064703.azurewebsites.net/api/makescript";
+        //string url = "https://scriptserver20230406170600.azurewebsites.net/api/makescript";
+        string url = "https://scriptserver20200214064703.azurewebsites.net/api/makescript";
 
         struct curl_slist* headers = NULL;
         headers = curl_slist_append(headers, "Accept: application/json");
         headers = curl_slist_append(headers, "Content-Type: application/json");
-        headers = curl_slist_append(headers, "x-functions-key: gxnANoM-we9K5gsZFunD-cb0zsMPbiDbo33DLevI3A-bAzFufrFvLA==");
-        //headers = curl_slist_append(headers, "x-functions-key: c35CpxQo2uQQy3JkFeCYob43SxiBr/xyQzABMT7d5I3NHPfArSSrBQ==");
+        //headers = curl_slist_append(headers, "x-functions-key: gxnANoM-we9K5gsZFunD-cb0zsMPbiDbo33DLevI3A-bAzFufrFvLA==");
+        headers = curl_slist_append(headers, "x-functions-key: c35CpxQo2uQQy3JkFeCYob43SxiBr/xyQzABMT7d5I3NHPfArSSrBQ==");
         headers = curl_slist_append(headers, "charsets: utf-8");
 
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
@@ -188,14 +188,14 @@ void getScriptFromAzureTest(Json::Value& responsebody, Json::Value requestbody) 
 
             cout << res << endl;
 
-            string s = (*httpData.get()).c_str();
+            string retTemp = (*httpData.get()).c_str();
 
-            cout << s << endl;
+            cout << retTemp << endl;
 
-            if (jReader.parse(((*httpData.get()).c_str()), resjson)) {
+            if (jReader.parse(retTemp, resjson)) {
 
                 cout << "[XBC_Integration] response = " << resjson.toStyledString() << endl;
-                const int errorcode = resjson["errorcode"].asInt();
+                const int errorcode = stoi(resjson["errorcode"].asString());
                 const std::string errordescription = resjson["errordescription"].asString();
                 if (errorcode != 200)
                     cout << "[XBC_Integration] script server internal error = " << errordescription << endl;
@@ -224,15 +224,13 @@ int main(int argc, char* argv[])
 
     item["host"] = Json::Value("Test");
     item["port"] = Json::Value("8080");
-    item["guid"] = Json::Value("00001");
+    item["guid"] = Json::Value("2E1EF896-49CD-4BEA-853C-31BA5678483E");
     item["filename"] = Json::Value("agentX86");
     item["dllink"] = Json::Value("http://123:8080/asd/aaa.exe");
     item["checksum"] = Json::Value("VEWVGG$GT$");
 
     Json::Value jsRoot;
     getScriptFromAzureTest(jsRoot, item);
-
-    system("pause");
 
     //TCHAR buffer[MAX_PATH];
     //GetModuleFileName(NULL, buffer, MAX_PATH);
