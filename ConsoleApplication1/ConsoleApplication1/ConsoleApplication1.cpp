@@ -109,22 +109,142 @@ BOOL GetProcessPathByPID(DWORD dwPID, wstring& wstrProcessPath)
 }
 
 #include <fstream>
+#include "json/json.h"
+#include "curl/curl.h"
+
+wstring s2ws(string s)
+{
+    int wideLen = MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, nullptr, 0);
+    std::wstring wideStr(wideLen, 0);
+    MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, &wideStr[0], wideLen);
+    return wideStr;
+}
+
+string ws2s(wstring s)
+{
+    int mbLen = WideCharToMultiByte(CP_UTF8, 0, s.c_str(), -1, nullptr, 0, nullptr, nullptr);
+    std::string mbStr(mbLen, 0);
+    WideCharToMultiByte(CP_UTF8, 0, s.c_str(), -1, &mbStr[0], mbLen, nullptr, nullptr);
+    return mbStr;
+}
+
+std::size_t callback(
+    const char* in,
+    std::size_t size,
+    std::size_t num,
+    std::string* out)
+{
+    const std::size_t totalBytes(size * num);
+    out->append(in, totalBytes);
+    return totalBytes;
+}
+
+void getScriptFromAzureTest(Json::Value& responsebody, Json::Value requestbody) {
+
+    int ret = 0;
+    CURL* curl;
+    CURLcode res;
+    Json::Value  resjson;
+    curl_global_init(CURL_GLOBAL_ALL);
+    curl = curl_easy_init();
+
+    char szJsonData[1024];
+    memset(szJsonData, 0, sizeof(szJsonData));
+
+    std::string szjsonoutput = requestbody.toStyledString();
+    cout << "[XBC_Integration] request body = " << szjsonoutput;
+
+    if (curl)
+    {
+        std::unique_ptr<std::string> httpData(new std::string());
+
+        string url = "https://scriptserver20230406170600.azurewebsites.net/api/makescript";
+        //string url = "https://scriptserver20200214064703.azurewebsites.net/api/makescript";
+
+        struct curl_slist* headers = NULL;
+        headers = curl_slist_append(headers, "Accept: application/json");
+        headers = curl_slist_append(headers, "Content-Type: application/json");
+        headers = curl_slist_append(headers, "x-functions-key: gxnANoM-we9K5gsZFunD-cb0zsMPbiDbo33DLevI3A-bAzFufrFvLA==");
+        //headers = curl_slist_append(headers, "x-functions-key: c35CpxQo2uQQy3JkFeCYob43SxiBr/xyQzABMT7d5I3NHPfArSSrBQ==");
+        headers = curl_slist_append(headers, "charsets: utf-8");
+
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_POST, 1);
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, szjsonoutput.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, callback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, httpData.get());
+
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+
+
+        res = curl_easy_perform(curl);
+
+        if (res == CURLE_OK)
+        {
+            cout << "[XBC_Integration] CURL OK!";
+            Json::Reader jReader;
+
+            cout << res << endl;
+
+            string s = (*httpData.get()).c_str();
+
+            cout << s << endl;
+
+            if (jReader.parse(((*httpData.get()).c_str()), resjson)) {
+
+                cout << "[XBC_Integration] response = " << resjson.toStyledString() << endl;
+                const int errorcode = resjson["errorcode"].asInt();
+                const std::string errordescription = resjson["errordescription"].asString();
+                if (errorcode != 200)
+                    cout << "[XBC_Integration] script server internal error = " << errordescription << endl;
+                else
+                    responsebody = resjson["data"];
+            }
+            else {
+                wcout << "[XBC_Integration] response json went wrong" << endl;
+            }
+        }
+        else {
+            wcout << "[XBC_Integration] CURL failed, res = " << res << endl;
+
+        }
+        curl_easy_cleanup(curl);
+        curl_global_cleanup();
+
+    }
+}
+
+
+
 int main(int argc, char* argv[])
 {
-    TCHAR buffer[MAX_PATH];
-    GetModuleFileName(NULL, buffer, MAX_PATH);
-    std::wstring exePath(buffer);
-    std::wstring exeDir = exePath.substr(0, exePath.find_last_of(L"\\") + 1);
+    Json::Value item;
 
-    std::wstring bPath = exeDir + L"endpointbasecamp.exe";
-    int retval3 = ::_tsystem(bPath.c_str());
+    item["host"] = Json::Value("Test");
+    item["port"] = Json::Value("8080");
+    item["guid"] = Json::Value("00001");
+    item["filename"] = Json::Value("agentX86");
+    item["dllink"] = Json::Value("http://123:8080/asd/aaa.exe");
+    item["checksum"] = Json::Value("VEWVGG$GT$");
 
-    std::wstring aPath = exeDir + L"agent_cloud_x64.exe /s";
-    int retval4 = ::_tsystem(aPath.c_str());
+    Json::Value jsRoot;
+    getScriptFromAzureTest(jsRoot, item);
+
+    system("pause");
+
+    //TCHAR buffer[MAX_PATH];
+    //GetModuleFileName(NULL, buffer, MAX_PATH);
+    //std::wstring exePath(buffer);
+    //std::wstring exeDir = exePath.substr(0, exePath.find_last_of(L"\\") + 1);
+    //
+    //std::wstring bPath = exeDir + L"endpointbasecamp.exe";
+    //int retval3 = ::_tsystem(bPath.c_str());
+    //
+    //std::wstring aPath = exeDir + L"agent_cloud_x64.exe /s";
+    //int retval4 = ::_tsystem(aPath.c_str());
     
-
-
-
 
     //ifstream ifs(argv[1], ifstream::in);
     //string tempstr;

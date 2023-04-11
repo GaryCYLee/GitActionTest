@@ -1,0 +1,284 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" InitialTargets="rmt_openssl_init_targets_0;rmt_openssl_init_targets_1;rmt_openssl_init_targets_2;rmt_openssl_ItemGroupInit_targets_3">
+  <PropertyGroup Label="Default initializers for properties">
+    <Linkages-rmt_openssl Condition="'$(Linkages-rmt_openssl)' == ''">dynamic</Linkages-rmt_openssl>
+    <CallingConventions-rmt_openssl Condition="'$(CallingConventions-rmt_openssl)' == ''">cdecl</CallingConventions-rmt_openssl>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)../..///build/native/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Label="v140 and Win32 and Release and static" Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'win32' And ( $(Configuration.ToLower().IndexOf('debug')) == -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'static'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)../..///build/native/include/v140\Win32\Release\static;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(MSBuildThisFileDirectory)../../build/native/lib/v140/Win32/Release/static/libssl.lib;$(MSBuildThisFileDirectory)../../build/native/lib/v140/Win32/Release/static/libcrypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Label="v140 and x64 and Release and dynamic" Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'x64' And ( $(Configuration.ToLower().IndexOf('debug')) == -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'dynamic'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)../..///build/native/include/v140\x64\Release\dynamic;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(MSBuildThisFileDirectory)../../build/native/lib/v140/x64/Release/dynamic/libssl.lib;$(MSBuildThisFileDirectory)../../build/native/lib/v140/x64/Release/dynamic/libcrypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Label="v140 and x64 and Release and static" Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'x64' And ( $(Configuration.ToLower().IndexOf('debug')) == -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'static'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)../..///build/native/include/v140\x64\Release\static;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(MSBuildThisFileDirectory)../../build/native/lib/v140/x64/Release/static/libssl.lib;$(MSBuildThisFileDirectory)../../build/native/lib/v140/x64/Release/static/libcrypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Label="v140 and Win32 and Release and dynamic" Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'win32' And ( $(Configuration.ToLower().IndexOf('debug')) == -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'dynamic'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)../..///build/native/include/v140\Win32\Release\dynamic;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(MSBuildThisFileDirectory)../../build/native/lib/v140/Win32/Release/dynamic/libssl.lib;$(MSBuildThisFileDirectory)../../build/native/lib/v140/Win32/Release/dynamic/libcrypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Label="v140 and x64 and Debug and dynamic" Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'x64' And ( $(Configuration.ToLower().IndexOf('debug')) &gt; -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'dynamic'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)../..///build/native/include/v140\x64\Debug\dynamic;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(MSBuildThisFileDirectory)../../build/native/lib/v140/x64/Debug/dynamic/libssl.lib;$(MSBuildThisFileDirectory)../../build/native/lib/v140/x64/Debug/dynamic/libcrypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Label="v140 and x64 and Debug and static" Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'x64' And ( $(Configuration.ToLower().IndexOf('debug')) &gt; -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'static'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)../..///build/native/include/v140\x64\Debug\static;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(MSBuildThisFileDirectory)../../build/native/lib/v140/x64/Debug/static/libssl.lib;$(MSBuildThisFileDirectory)../../build/native/lib/v140/x64/Debug/static/libcrypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Label="v140 and Win32 and Debug and static" Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'win32' And ( $(Configuration.ToLower().IndexOf('debug')) &gt; -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'static'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)../..///build/native/include/v140\Win32\Debug\static;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(MSBuildThisFileDirectory)../../build/native/lib/v140/Win32/Debug/static/libssl.lib;$(MSBuildThisFileDirectory)../../build/native/lib/v140/Win32/Debug/static/libcrypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Label="v140 and Win32 and Debug and dynamic" Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'win32' And ( $(Configuration.ToLower().IndexOf('debug')) &gt; -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'dynamic'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)../..///build/native/include/v140\Win32\Debug\dynamic;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(MSBuildThisFileDirectory)../../build/native/lib/v140/Win32/Debug/dynamic/libssl.lib;$(MSBuildThisFileDirectory)../../build/native/lib/v140/Win32/Debug/dynamic/libcrypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Target Name="rmt_openssl_BeforeLink" AfterTargets="BeforeLink">
+    <CheckRuntimeLibrary RuntimeLibrary="%(ClCompile.RuntimeLibrary)" ExpectedRuntimeLibrary="none" LibraryName="rmt_openssl" />
+  </Target>
+  <Target Name="rmt_openssl_BeforeLink_Release_and_static" Label="Release and static" Condition="( $(Configuration.ToLower().IndexOf('debug')) == -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'static'" AfterTargets="rmt_openssl_BeforeLink">
+    <CheckRuntimeLibrary RuntimeLibrary="%(ClCompile.RuntimeLibrary)" ExpectedRuntimeLibrary="MultiThreaded" LibraryName="rmt_openssl" />
+  </Target>
+  <Target Name="rmt_openssl_BeforeLink_Debug_and_static" Label="Debug and static" Condition="( $(Configuration.ToLower().IndexOf('debug')) &gt; -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'static'" AfterTargets="rmt_openssl_BeforeLink">
+    <CheckRuntimeLibrary RuntimeLibrary="%(ClCompile.RuntimeLibrary)" ExpectedRuntimeLibrary="MultiThreadedDebug" LibraryName="rmt_openssl" />
+  </Target>
+  <Target Name="rmt_openssl_AfterBuild" AfterTargets="AfterBuild">
+    <Copy UseHardlinksIfPossible="true" DestinationFolder="$(TargetDir)" SourceFiles="@(CopyToOutput)" SkipUnchangedFiles="true">
+      <Output TaskParameter="DestinationFiles" PropertyName="DestinationFiles" />
+      <Output TaskParameter="DestinationFiles" ItemName="DestinationFiles" />
+      <Output TaskParameter="CopiedFiles" PropertyName="CopiedFiles" />
+      <Output TaskParameter="CopiedFiles" ItemName="CopiedFiles" />
+    </Copy>
+  </Target>
+  <Target Name="rmt_openssl_init_targets_1">
+    <StringContains Text="Linkages-dynamic" Library="rmt_openssl" Value="dynamic" Condition="'$(Linkages-rmt_openssl)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkages-rmt_openssl" />
+    </StringContains>
+    <StringContains Text="Linkages-static" Library="rmt_openssl" Value="static" Condition="'$(Linkages-rmt_openssl)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkages-rmt_openssl" />
+    </StringContains>
+    <StringContains Text="Linkages-ltcg" Library="rmt_openssl" Value="ltcg" Condition="'$(Linkages-rmt_openssl)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkages-rmt_openssl" />
+    </StringContains>
+    <StringContains Text="Linkages-sxs" Library="rmt_openssl" Value="sxs" Condition="'$(Linkages-rmt_openssl)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkages-rmt_openssl" />
+    </StringContains>
+    <StringContains Text="CallingConventions-cdecl" Library="rmt_openssl" Value="cdecl" Condition="'$(CallingConventions-rmt_openssl)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConventions-rmt_openssl" />
+    </StringContains>
+    <StringContains Text="CallingConventions-stdcall" Library="rmt_openssl" Value="stdcall" Condition="'$(CallingConventions-rmt_openssl)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConventions-rmt_openssl" />
+    </StringContains>
+    <StringContains Text="CallingConventions-fastcall" Library="rmt_openssl" Value="fastcall" Condition="'$(CallingConventions-rmt_openssl)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConventions-rmt_openssl" />
+    </StringContains>
+    <StringContains Text="CallingConventions-thiscall" Library="rmt_openssl" Value="thiscall" Condition="'$(CallingConventions-rmt_openssl)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConventions-rmt_openssl" />
+    </StringContains>
+    <StringContains Text="CallingConventions-clrcall" Library="rmt_openssl" Value="clrcall" Condition="'$(CallingConventions-rmt_openssl)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConventions-rmt_openssl" />
+    </StringContains>
+    <StringContains Text="CallingConventions-vectorcall" Library="rmt_openssl" Value="vectorcall" Condition="'$(CallingConventions-rmt_openssl)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConventions-rmt_openssl" />
+    </StringContains>
+  </Target>
+  <Target Name="rmt_openssl_init_targets_2">
+    <SetEnv Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'win32' And ( $(Configuration.ToLower().IndexOf('debug')) == -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'static'" Name="PATH" Prefix="true" Value="$(MSBuildThisFileDirectory)../../tools/native/v140/Win32/Release/static">
+      <Output TaskParameter="OutputEnvironmentVariable" PropertyName="PATH" />
+    </SetEnv>
+    <SetEnv Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'win32' And ( $(Configuration.ToLower().IndexOf('debug')) &gt; -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'dynamic'" Name="PATH" Prefix="true" Value="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Debug/dynamic">
+      <Output TaskParameter="OutputEnvironmentVariable" PropertyName="PATH" />
+    </SetEnv>
+    <SetEnv Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'win32' And ( $(Configuration.ToLower().IndexOf('debug')) &gt; -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'dynamic'" Name="PATH" Prefix="true" Value="$(MSBuildThisFileDirectory)../../tools/native/v140/Win32/Debug/dynamic">
+      <Output TaskParameter="OutputEnvironmentVariable" PropertyName="PATH" />
+    </SetEnv>
+    <SetEnv Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'x64' And ( $(Configuration.ToLower().IndexOf('debug')) &gt; -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'dynamic'" Name="PATH" Prefix="true" Value="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Debug/dynamic">
+      <Output TaskParameter="OutputEnvironmentVariable" PropertyName="PATH" />
+    </SetEnv>
+    <SetEnv Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'x64' And ( $(Configuration.ToLower().IndexOf('debug')) &gt; -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'dynamic'" Name="PATH" Prefix="true" Value="$(MSBuildThisFileDirectory)../../tools/native/v140/x64/Debug/dynamic">
+      <Output TaskParameter="OutputEnvironmentVariable" PropertyName="PATH" />
+    </SetEnv>
+    <SetEnv Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'x64' And ( $(Configuration.ToLower().IndexOf('debug')) == -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'static'" Name="PATH" Prefix="true" Value="$(MSBuildThisFileDirectory)../../tools/native/v140/x64/Release/static">
+      <Output TaskParameter="OutputEnvironmentVariable" PropertyName="PATH" />
+    </SetEnv>
+    <SetEnv Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'x64' And ( $(Configuration.ToLower().IndexOf('debug')) == -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'dynamic'" Name="PATH" Prefix="true" Value="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Release/dynamic">
+      <Output TaskParameter="OutputEnvironmentVariable" PropertyName="PATH" />
+    </SetEnv>
+    <SetEnv Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'x64' And ( $(Configuration.ToLower().IndexOf('debug')) == -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'dynamic'" Name="PATH" Prefix="true" Value="$(MSBuildThisFileDirectory)../../tools/native/v140/x64/Release/dynamic">
+      <Output TaskParameter="OutputEnvironmentVariable" PropertyName="PATH" />
+    </SetEnv>
+    <SetEnv Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'win32' And ( $(Configuration.ToLower().IndexOf('debug')) &gt; -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'static'" Name="PATH" Prefix="true" Value="$(MSBuildThisFileDirectory)../../tools/native/v140/Win32/Debug/static">
+      <Output TaskParameter="OutputEnvironmentVariable" PropertyName="PATH" />
+    </SetEnv>
+    <SetEnv Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'win32' And ( $(Configuration.ToLower().IndexOf('debug')) == -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'dynamic'" Name="PATH" Prefix="true" Value="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Release/dynamic">
+      <Output TaskParameter="OutputEnvironmentVariable" PropertyName="PATH" />
+    </SetEnv>
+    <SetEnv Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'win32' And ( $(Configuration.ToLower().IndexOf('debug')) == -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'dynamic'" Name="PATH" Prefix="true" Value="$(MSBuildThisFileDirectory)../../tools/native/v140/Win32/Release/dynamic">
+      <Output TaskParameter="OutputEnvironmentVariable" PropertyName="PATH" />
+    </SetEnv>
+    <SetEnv Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'x64' And ( $(Configuration.ToLower().IndexOf('debug')) &gt; -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'static'" Name="PATH" Prefix="true" Value="$(MSBuildThisFileDirectory)../../tools/native/v140/x64/Debug/static">
+      <Output TaskParameter="OutputEnvironmentVariable" PropertyName="PATH" />
+    </SetEnv>
+  </Target>
+  <Target Name="rmt_openssl_ItemGroupInit_targets_3">
+    <ItemGroup Label="v140 and Win32 and Release and static" Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'win32' And ( $(Configuration.ToLower().IndexOf('debug')) == -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'static'">
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Release/static/ossl_static.pdb" />
+    </ItemGroup>
+    <ItemGroup Label="v140 and Win32 and Debug and dynamic" Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'win32' And ( $(Configuration.ToLower().IndexOf('debug')) &gt; -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'dynamic'">
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Debug/dynamic/capi.dll" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Debug/dynamic/capi.pdb" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Debug/dynamic/libcrypto-1_1.dll" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Debug/dynamic/libcrypto-1_1.pdb" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Debug/dynamic/libssl-1_1.dll" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Debug/dynamic/libssl-1_1.pdb" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Debug/dynamic/openssl.pdb" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Debug/dynamic/padlock.dll" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Debug/dynamic/padlock.pdb" />
+      <None Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Debug/dynamic/capi.dll">
+        <DeploymentContent>true</DeploymentContent>
+      </None>
+      <None Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Debug/dynamic/libcrypto-1_1.dll">
+        <DeploymentContent>true</DeploymentContent>
+      </None>
+      <None Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Debug/dynamic/libssl-1_1.dll">
+        <DeploymentContent>true</DeploymentContent>
+      </None>
+      <None Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Debug/dynamic/padlock.dll">
+        <DeploymentContent>true</DeploymentContent>
+      </None>
+    </ItemGroup>
+    <ItemGroup Label="v140 and x64 and Debug and dynamic" Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'x64' And ( $(Configuration.ToLower().IndexOf('debug')) &gt; -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'dynamic'">
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Debug/dynamic/capi.dll" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Debug/dynamic/capi.pdb" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Debug/dynamic/libcrypto-1_1-x64.dll" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Debug/dynamic/libcrypto-1_1-x64.pdb" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Debug/dynamic/libssl-1_1-x64.dll" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Debug/dynamic/libssl-1_1-x64.pdb" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Debug/dynamic/openssl.pdb" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Debug/dynamic/padlock.dll" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Debug/dynamic/padlock.pdb" />
+      <None Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Debug/dynamic/capi.dll">
+        <DeploymentContent>true</DeploymentContent>
+      </None>
+      <None Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Debug/dynamic/libcrypto-1_1-x64.dll">
+        <DeploymentContent>true</DeploymentContent>
+      </None>
+      <None Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Debug/dynamic/libssl-1_1-x64.dll">
+        <DeploymentContent>true</DeploymentContent>
+      </None>
+      <None Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Debug/dynamic/padlock.dll">
+        <DeploymentContent>true</DeploymentContent>
+      </None>
+    </ItemGroup>
+    <ItemGroup Label="v140 and x64 and Release and static" Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'x64' And ( $(Configuration.ToLower().IndexOf('debug')) == -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'static'">
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Release/static/ossl_static.pdb" />
+    </ItemGroup>
+    <ItemGroup Label="v140 and x64 and Release and dynamic" Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'x64' And ( $(Configuration.ToLower().IndexOf('debug')) == -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'dynamic'">
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Release/dynamic/capi.dll" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Release/dynamic/capi.pdb" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Release/dynamic/libcrypto-1_1-x64.dll" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Release/dynamic/libcrypto-1_1-x64.pdb" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Release/dynamic/libssl-1_1-x64.dll" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Release/dynamic/libssl-1_1-x64.pdb" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Release/dynamic/openssl.pdb" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Release/dynamic/padlock.dll" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Release/dynamic/padlock.pdb" />
+      <None Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Release/dynamic/capi.dll">
+        <DeploymentContent>true</DeploymentContent>
+      </None>
+      <None Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Release/dynamic/libcrypto-1_1-x64.dll">
+        <DeploymentContent>true</DeploymentContent>
+      </None>
+      <None Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Release/dynamic/libssl-1_1-x64.dll">
+        <DeploymentContent>true</DeploymentContent>
+      </None>
+      <None Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Release/dynamic/padlock.dll">
+        <DeploymentContent>true</DeploymentContent>
+      </None>
+    </ItemGroup>
+    <ItemGroup Label="v140 and Win32 and Debug and static" Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'win32' And ( $(Configuration.ToLower().IndexOf('debug')) &gt; -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'static'">
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Debug/static/ossl_static.pdb" />
+    </ItemGroup>
+    <ItemGroup Label="v140 and Win32 and Release and dynamic" Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'win32' And ( $(Configuration.ToLower().IndexOf('debug')) == -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'dynamic'">
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Release/dynamic/capi.dll" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Release/dynamic/capi.pdb" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Release/dynamic/libcrypto-1_1.dll" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Release/dynamic/libcrypto-1_1.pdb" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Release/dynamic/libssl-1_1.dll" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Release/dynamic/libssl-1_1.pdb" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Release/dynamic/openssl.pdb" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Release/dynamic/padlock.dll" />
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Release/dynamic/padlock.pdb" />
+      <None Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Release/dynamic/capi.dll">
+        <DeploymentContent>true</DeploymentContent>
+      </None>
+      <None Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Release/dynamic/libcrypto-1_1.dll">
+        <DeploymentContent>true</DeploymentContent>
+      </None>
+      <None Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Release/dynamic/libssl-1_1.dll">
+        <DeploymentContent>true</DeploymentContent>
+      </None>
+      <None Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/Win32/Release/dynamic/padlock.dll">
+        <DeploymentContent>true</DeploymentContent>
+      </None>
+    </ItemGroup>
+    <ItemGroup Label="v140 and x64 and Debug and static" Condition="'$(PlatformToolset.ToLower())' == 'v140' And '$(Platform.ToLower())' == 'x64' And ( $(Configuration.ToLower().IndexOf('debug')) &gt; -1 ) And '$(Linkages-rmt_openssl.ToLower())' == 'static'">
+      <CopyToOutput Include="$(MSBuildThisFileDirectory)../../build/native/bin/v140/x64/Debug/static/ossl_static.pdb" />
+    </ItemGroup>
+  </Target>
+  <ItemGroup>
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)\default-propertiesui.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)\rmt_openssl-propertiesui-1aea3192-bf06-4724-81d9-1c66c3b3e08b.xml" />
+  </ItemGroup>
+  <UsingTask TaskName="NuGetPackageOverlay" AssemblyFile="$(NuGet-NativeExtensionPath)\coapp.NuGetNativeMSBuildTasks.dll" Condition="'$(DesignTimeBuild)' != 'true' AND ('$(NugetMsBuildExtensionLoaded)' == '' OR '$(NugetMsBuildExtensionLoaded)' == 'false')" />
+  <UsingTask TaskName="CheckRuntimeLibrary" AssemblyFile="$(NuGet-NativeExtensionPath)\coapp.NuGetNativeMSBuildTasks.dll" Condition="'$(DesignTimeBuild)' != 'true' AND ('$(NugetMsBuildExtensionLoaded)' == '' OR '$(NugetMsBuildExtensionLoaded)' == 'false')" />
+  <UsingTask TaskName="StringContains" AssemblyFile="$(NuGet-NativeExtensionPath)\coapp.NuGetNativeMSBuildTasks.dll" Condition="'$(DesignTimeBuild)' != 'true' AND ('$(NugetMsBuildExtensionLoaded)' == '' OR '$(NugetMsBuildExtensionLoaded)' == 'false')" />
+  <Target Name="rmt_openssl_init_targets_0">
+    <Copy SkipUnchangedFiles="true" SourceFiles="$(NuGet-NativeExtensionPath)\coapp.NuGetNativeMSBuildTasks.dll.orig" DestinationFiles="$(NuGet-NativeExtensionPath)\coapp.NuGetNativeMSBuildTasks.dll" />
+    <PropertyGroup>
+      <NugetMsBuildExtensionLoaded Condition="'$(NugetMsBuildExtensionLoaded)' == '' OR '$(NuGet-OverlayLoaded)' == 'false'">true</NugetMsBuildExtensionLoaded>
+    </PropertyGroup>
+  </Target>
+</Project>
