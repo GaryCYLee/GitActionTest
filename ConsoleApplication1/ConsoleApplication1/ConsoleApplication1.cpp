@@ -158,14 +158,12 @@ void getScriptFromAzureTest(Json::Value& responsebody, Json::Value requestbody) 
     {
         std::unique_ptr<std::string> httpData(new std::string());
 
-        //string url = "https://scriptserver20230406170600.azurewebsites.net/api/makescript";
-        string url = "https://scriptserver20200214064703.azurewebsites.net/api/makescript";
+        string url = "https://scriptserver20230412102200.azurewebsites.net/api/makescript";
 
         struct curl_slist* headers = NULL;
         headers = curl_slist_append(headers, "Accept: application/json");
         headers = curl_slist_append(headers, "Content-Type: application/json");
-        //headers = curl_slist_append(headers, "x-functions-key: gxnANoM-we9K5gsZFunD-cb0zsMPbiDbo33DLevI3A-bAzFufrFvLA==");
-        headers = curl_slist_append(headers, "x-functions-key: c35CpxQo2uQQy3JkFeCYob43SxiBr/xyQzABMT7d5I3NHPfArSSrBQ==");
+        headers = curl_slist_append(headers, "x-functions-key: 9XFnAPwfkmMah2P03EGntqS-Abu9pNBEPupwVXqLVla6AzFu60u2LA==");
         headers = curl_slist_append(headers, "charsets: utf-8");
 
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
@@ -224,7 +222,7 @@ int main(int argc, char* argv[])
 
     item["host"] = Json::Value("Test");
     item["port"] = Json::Value("8080");
-    item["guid"] = Json::Value("2E1EF896-49CD-4BEA-853C-31BA5678483E");
+    item["guid"] = Json::Value("00000000-0000-0000-0000-000000000000");
     item["filename"] = Json::Value("agentX86");
     item["dllink"] = Json::Value("http://123:8080/asd/aaa.exe");
     item["checksum"] = Json::Value("VEWVGG$GT$");
