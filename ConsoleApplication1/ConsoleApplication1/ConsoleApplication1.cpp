@@ -220,11 +220,9 @@ int main(int argc, char* argv[])
 {
     Json::Value item;
 
-    item["host"] = Json::Value("Test");
-    item["port"] = Json::Value("8080");
     item["guid"] = Json::Value("00000000-0000-0000-0000-000000000000");
     item["arch"] = Json::Value("x86");
-    item["filename"] = Json::Value("agentX86");
+    item["filename"] = Json::Value("agentX86.exe");
     item["dllink"] = Json::Value("http://123:8080/asd/aaa.exe");
     item["checksum"] = Json::Value("VEWVGG$GT$");
 
