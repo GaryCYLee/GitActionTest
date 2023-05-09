@@ -159,12 +159,13 @@ void getScriptFromAzureTest(Json::Value& responsebody, Json::Value requestbody) 
         std::unique_ptr<std::string> httpData(new std::string());
 
         string url = "https://scriptserver20230412102200.azurewebsites.net/api/makescript";
+        //string url = "https://scriptserver20230412102200.azurewebsites.net/api/updatescript";
 
         struct curl_slist* headers = NULL;
         headers = curl_slist_append(headers, "Accept: application/json");
         headers = curl_slist_append(headers, "Content-Type: application/json");
-        headers = curl_slist_append(headers, "x-functions-key: OCiJOiFmaAeB-7Xf7HtKGV5bXsVgrAfBvio5ylQWGz0HAzFuH845dw==");
-        //headers = curl_slist_append(headers, "x-functions-key: 9XFnAPwfkmMah2P03EGntqS-Abu9pNBEPupwVXqLVla6AzFu60u2LA==");
+        headers = curl_slist_append(headers, "x-functions-key: 9XFnAPwfkmMah2P03EGntqS-Abu9pNBEPupwVXqLVla6AzFu60u2LA==");
+        //headers = curl_slist_append(headers, "x-functions-key: OCiJOiFmaAeB-7Xf7HtKGV5bXsVgrAfBvio5ylQWGz0HAzFuH845dw==");
         headers = curl_slist_append(headers, "charsets: utf-8");
 
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
@@ -215,247 +216,21 @@ void getScriptFromAzureTest(Json::Value& responsebody, Json::Value requestbody) 
     }
 }
 
-typedef struct {
-    PUBLICKEYSTRUC  PublicKeyStruc;
-    ALG_ID Algid;
-    BYTE bEncryptedKey[32];
-} ENC_EX;
-#define CRYPT_TITLE_EX      "!CRYPTEX!"
-#define CRYPT_TITLE_EX_W    L"!CRYPTEX!"
-#define CRYPT_TITLE_EX_LEN  9
-#define CRYPT_TITLE_EX3      "!CRYPTEX3!"
-#define CRYPT_TITLE_EX3_W    L"!CRYPTEX3!"
-#define CRYPT_TITLE_EX3_LEN  10
-#define ENCEX_SALT_LEN      3
-#include "cmnsrc_Base64Coder.h"
-#define REG32(X) (X)
-void Base64Decode_StrToBin(LPCSTR pszInputStr, int nStrBufferLenInByte, LPBYTE pbData, LPDWORD pcbData)
-{
-    Base64Coder decoder;
-    decoder.Decode(pszInputStr);
-
-    if (*pcbData == 0 ||
-        *pcbData < decoder.DecodedDataLen() ||
-        pbData == NULL)
-    {
-        *pcbData = decoder.DecodedDataLen();
-    }
-    else
-    {
-        *pcbData = decoder.DecodedDataLen();
-        memcpy(pbData, decoder.DecodedMessage(), decoder.DecodedDataLen());
-    }
-
-}
-inline unsigned char ConvertCharToByte(char c1, char c2)
-{
-    unsigned char value = 0;
-    if (c1 >= '0' && c1 <= '9')
-        value = (c1 - '0');
-    else if (c1 >= 'A' && c1 <= 'F')
-        value = (c1 - 'A' + 10);
-    else if (c1 >= 'a' && c1 <= 'f')
-        value = (c1 - 'a' + 10);
-
-    value = (value << 4);
-
-    if (c2 >= '0' && c2 <= '9')
-        value += (c2 - '0');
-    else if (c2 >= 'A' && c2 <= 'F')
-        value += (c2 - 'A' + 10);
-    else if (c2 >= 'a' && c2 <= 'f')
-        value += (c2 - 'a' + 10);
-
-    return value;
-}
-void StrToBin(LPCSTR pszInputStr, int nStrBufferLenInByte, LPBYTE pbData, DWORD cbData)
-{
-    unsigned char c = 0;
-
-    for (int i = 0; i < nStrBufferLenInByte; i += 2)
-    {
-        *(pbData) = ConvertCharToByte(pszInputStr[i], pszInputStr[i + 1]);
-        pbData++;
-    }
-}
-void VarInit(ENC_EX& EncEX, BYTE(&bIV)[16])
-{
-    EncEX.Algid = 32;
-    EncEX.PublicKeyStruc.aiKeyAlg = CALG_AES_256;
-    EncEX.PublicKeyStruc.bType = PLAINTEXTKEYBLOB;
-    EncEX.PublicKeyStruc.bVersion = CUR_BLOB_VERSION;
-    EncEX.PublicKeyStruc.reserved = 0;
-    EncEX.bEncryptedKey[5] = 22;
-    bIV[11] = 102;
-    EncEX.bEncryptedKey[15] = 221;
-    EncEX.bEncryptedKey[2] = 233;
-    EncEX.bEncryptedKey[8] = 137;
-    bIV[7] = 186;
-    EncEX.bEncryptedKey[31] = 115;
-    bIV[14] = 18;
-    bIV[4] = 57;
-    bIV[10] = 206;
-    EncEX.bEncryptedKey[23] = 231;
-    EncEX.bEncryptedKey[0] = 235;
-    EncEX.bEncryptedKey[18] = 7;
-    bIV[15] = 174;
-    EncEX.bEncryptedKey[10] = 61;
-    EncEX.bEncryptedKey[11] = 252;
-    EncEX.bEncryptedKey[12] = 114;
-    EncEX.bEncryptedKey[21] = 244;
-    bIV[5] = 137;
-    EncEX.bEncryptedKey[9] = 112;
-    EncEX.bEncryptedKey[14] = 255;
-    EncEX.bEncryptedKey[4] = 108;
-    EncEX.bEncryptedKey[29] = 202;
-    bIV[9] = 98;
-    EncEX.bEncryptedKey[25] = 137;
-    EncEX.bEncryptedKey[17] = 173;
-    bIV[1] = 105;
-    EncEX.bEncryptedKey[19] = 191;
-    EncEX.bEncryptedKey[1] = 6;
-    EncEX.bEncryptedKey[22] = 162;
-    bIV[13] = 5;
-    EncEX.bEncryptedKey[13] = 83;
-    EncEX.bEncryptedKey[30] = 75;
-    bIV[2] = 46;
-    EncEX.bEncryptedKey[24] = 160;
-    EncEX.bEncryptedKey[20] = 18;
-    bIV[8] = 155;
-    EncEX.bEncryptedKey[3] = 199;
-    EncEX.bEncryptedKey[6] = 29;
-    bIV[0] = 21;
-    EncEX.bEncryptedKey[26] = 252;
-    EncEX.bEncryptedKey[7] = 108;
-    EncEX.bEncryptedKey[16] = 113;
-    bIV[3] = 252;
-    EncEX.bEncryptedKey[28] = 166;
-    bIV[6] = 74;
-    bIV[12] = 201;
-    EncEX.bEncryptedKey[27] = 124;
-}
-
-int NewDecryptStrExReal(LPSTR pszEncryptStr)
-{
-    int nRet = -1;
-    ENC_EX EncEX;
-    HCRYPTPROV hCryptProv = NULL;
-    HCRYPTKEY hKey = NULL;
-    DWORD dwInputLen = strlen(pszEncryptStr);
-    PBYTE pbInputBinary = NULL;
-
-    LPCSTR pszProvider = MS_ENH_RSA_AES_PROV_A;
-    DWORD dwPadding = PKCS5_PADDING;
-    DWORD dwBase64Decode = FALSE;
-    BYTE bIV[16] = { 0 };
-    int nPrefixLength = -1;
-
-    if (0 == strncmp(CRYPT_TITLE_EX, pszEncryptStr, CRYPT_TITLE_EX_LEN))
-    {
-        //CryptEx align with PLM2.1, so OSCE doesn't use Base64Decode.
-        nPrefixLength = CRYPT_TITLE_EX_LEN;
-        dwBase64Decode = FALSE;
-    }
-
-    if (0 == strncmp(CRYPT_TITLE_EX3, pszEncryptStr, CRYPT_TITLE_EX3_LEN))
-    {
-        nPrefixLength = CRYPT_TITLE_EX3_LEN;
-        dwBase64Decode = TRUE;
-    }
-
-    if (dwInputLen > nPrefixLength &&
-        nPrefixLength > 0)
-    {
-        //query the actual decoded buffer size
-        DWORD dwBufferLen = 0;
-        if (dwBase64Decode == TRUE)
-        {
-            Base64Decode_StrToBin(pszEncryptStr + nPrefixLength, dwInputLen - nPrefixLength, NULL, &dwBufferLen);
-        }
-        else
-        {
-            dwBufferLen = (dwInputLen - nPrefixLength) / 2;
-        }
-
-        pbInputBinary = (PBYTE)malloc(sizeof(BYTE) * dwBufferLen);
-        if (NULL != pbInputBinary)
-        {
-            VarInit(EncEX, bIV);
-
-            if (dwBase64Decode == TRUE)
-            {
-                Base64Decode_StrToBin(pszEncryptStr + nPrefixLength, dwInputLen - nPrefixLength, pbInputBinary, &dwBufferLen);
-            }
-            else
-            {
-                StrToBin(pszEncryptStr + nPrefixLength, dwInputLen - nPrefixLength, pbInputBinary, dwBufferLen);
-            }
-
-            if (!CryptAcquireContextA(&hCryptProv, NULL, pszProvider, PROV_RSA_AES, CRYPT_VERIFYCONTEXT))
-            {
-            }
-            else if (!CryptImportKey(hCryptProv, (const BYTE*)&EncEX, sizeof(ENC_EX), NULL, 0, &hKey))
-            {
-            }
-            else if (!CryptSetKeyParam(hKey, KP_IV, bIV, 0))
-            {
-            }
-            else if (!CryptSetKeyParam(hKey, KP_PADDING, (PBYTE)&dwPadding, 0))
-            {
-            }
-            else if (!CryptDecrypt(hKey, NULL, TRUE, 0, pbInputBinary, &dwBufferLen))
-            {
-            }
-            else
-            {
-                memcpy_s(pszEncryptStr, dwInputLen, pbInputBinary + ENCEX_SALT_LEN, dwBufferLen - ENCEX_SALT_LEN);
-                pszEncryptStr[dwBufferLen - ENCEX_SALT_LEN] = '\0';
-                nRet = 1;
-            }
-        }
-    }
-
-    if (NULL != hKey)
-    {
-        CryptDestroyKey(hKey);
-    }
-
-    if (NULL != hCryptProv)
-    {
-        CryptReleaseContext(hCryptProv, 0);
-    }
-
-    if (NULL != pbInputBinary)
-    {
-        free(pbInputBinary);
-    }
-
-    return nRet;
-}
-
 int main(int argc, char* argv[])
 {
     Json::Value item;
 
-    item["guid"] = Json::Value("00000000-0000-0000-0000-000000000000");
+    item["guid"] = Json::Value("00000000-0000-THIS-0is0-serverid0000");
     item["arch"] = Json::Value("x86");
     item["filename"] = Json::Value("agentX86.exe");
     item["dllink"] = Json::Value("http://123:8080/asd/aaa.exe");
-    item["checksum"] = Json::Value("VEWVGG$GT$");
+    item["checksum"] = Json::Value("TESTWRITECHECKSUM!@#$%^&");
+    item["instanceid"] = Json::Value("00000000-0000-THIS-0is0-instanceid00");
 
     Json::Value jsRoot;
     getScriptFromAzureTest(jsRoot, item);
 
-    DWORD dw = 0, dwType = 0;
-    HKEY hKey;
-    LONG nRet = RegOpenKeyEx(HKEY_LOCAL_MACHINE, L"SOFTWARE\\TrendMicro\\PC-cillinNTCorp\\CurrentVersion\\Misc.", 0, REG32(KEY_READ), &hKey);
-    WCHAR wszBuffer[MAX_PATH] = { 0 };
-    DWORD nBufferSize = _countof(wszBuffer);
-    nRet = RegQueryValueEx(hKey, L"RoleSvc", 0, NULL, (BYTE*)wszBuffer, &nBufferSize);
-    int size = WideCharToMultiByte(CP_ACP, 0, wszBuffer, -1, NULL, 0, NULL, NULL);
-    LPSTR lstr = new char[size];
-    WideCharToMultiByte(CP_ACP, 0, wszBuffer, -1, lstr, size, NULL, NULL);
-    NewDecryptStrExReal(lstr);
+
 
 
 
