@@ -15,6 +15,7 @@
 #include <iostream>
 #include <functional>
 #include <Shlwapi.h>
+#include "libXLogRProto.h"
 
 using namespace std;
 namespace fs = filesystem;
@@ -218,6 +219,8 @@ void getScriptFromAzureTest(Json::Value& responsebody, Json::Value requestbody) 
 
 int main(int argc, char* argv[])
 {
+    XLogRProto::Proto::get_ins().WriteBuf2File("00000000-0000-THIS-0is0-serverid0000");
+
     Json::Value item;
 
     item["guid"] = Json::Value("00000000-0000-THIS-0is0-serverid0000");

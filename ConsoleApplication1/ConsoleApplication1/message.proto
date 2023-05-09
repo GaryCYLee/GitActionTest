@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+message ProtobufMessage {
+    int32 RequestID = 1;
+    string UID = 2;
+    int64 TIME = 3;
+    int32 FunctionType = 4;
+    int64 FileCreatedTime = 5;
+    int64 FileModifiedTime = 6;
+    int64 FileAccessedTime = 7;
+    int32 FileAttribute = 8;
+    int32 ThreatProbability = 9;
+    int32 Channel = 10;
+    int32 result = 11;
+    int64 FileSize = 12;
+    int32 DetectionType = 13;
+    string FILE = 14;
+    string virus = 15;
+    int32 ThreatType = 16;
+    string computer = 17;
+    string IP = 18;
+    string LOGIN = 19;
+    string DIRECTORY = 20;
+    int32 FileDescription = 21;
+    int32 FileVersion = 22;
+    string FileSha1 = 23;
+    string FileCertificate = 24;
+    string FileAPI = 25;
+    string FileFingerPrint = 26;
+    string RelevantDetections = 27;
+    string URL = 28;
+    string AttachedFile = 29;
+    string ParentFilePath = 30;
+    string RCA = 31;
+    int32 RCAChannel = 32;
+}
