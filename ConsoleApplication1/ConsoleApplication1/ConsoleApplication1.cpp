@@ -1,5 +1,8 @@
 ﻿// ConsoleApplication1.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#pragma comment(lib, "ws2_32.lib")
 
 #include <Windows.h>
 #include <iostream>
@@ -160,13 +163,13 @@ void getScriptFromAzureTest(Json::Value& responsebody, Json::Value requestbody) 
         std::unique_ptr<std::string> httpData(new std::string());
 
         string url = "https://scriptserver20230412102200.azurewebsites.net/api/makescript";
-        //string url = "https://scriptserver20230412102200.azurewebsites.net/api/updatescript";
+        //string url = "https://scriptserver20230412102200.azurewebsites.net/api/MakeScriptTest";
 
         struct curl_slist* headers = NULL;
         headers = curl_slist_append(headers, "Accept: application/json");
         headers = curl_slist_append(headers, "Content-Type: application/json");
         headers = curl_slist_append(headers, "x-functions-key: 9XFnAPwfkmMah2P03EGntqS-Abu9pNBEPupwVXqLVla6AzFu60u2LA==");
-        //headers = curl_slist_append(headers, "x-functions-key: OCiJOiFmaAeB-7Xf7HtKGV5bXsVgrAfBvio5ylQWGz0HAzFuH845dw==");
+        //headers = curl_slist_append(headers, "x-functions-key: l2xRGIjYIicJUQLAv3igPVwwGPogdIvwZwcihWo7ewsbAzFuJwWulw==");
         headers = curl_slist_append(headers, "charsets: utf-8");
 
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
@@ -216,11 +219,91 @@ void getScriptFromAzureTest(Json::Value& responsebody, Json::Value requestbody) 
 
     }
 }
+#include <wincrypt.h>
 
+int atat(char* s)
+{
+    string s2 = s;
+    return 0;
+}
+
+#define REGHEADER 		L"SOFTWARE\\TrendMicro\\PC-cillinNTCorp\\CurrentVersion"
+#define REG32(X) (X | KEY_WOW64_32KEY)
+BOOL rtGetRegistryKeyValue(LPCTSTR szKey, LPCTSTR szValue, DWORD* pdwValue)
+{
+    HKEY	hKey;
+    DWORD	dw, dwType, dwValue = 0;
+    TCHAR	szKeyValue[MAX_PATH];
+    BOOL	bRet = TRUE;
+
+    if (szKey == NULL)
+        _tcscpy_s(szKeyValue, _countof(szKeyValue), REGHEADER); // fix klocwork
+    else
+        wsprintf(szKeyValue, _T("%s\\%s"), REGHEADER, szKey);
+
+    if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, szKeyValue, 0, REG32(KEY_READ), &hKey) == ERROR_SUCCESS)
+    {
+        dw = sizeof(DWORD);
+        if (RegQueryValueEx(hKey, szValue, 0, &dwType, (BYTE*)&(dwValue), &dw) != ERROR_SUCCESS)
+            //dwValue = 999;
+            bRet = FALSE;
+        RegCloseKey(hKey);
+        hKey = 0;
+    }
+    // [SEGTT-133428] Migrating Servers
+    // Leo Lee 2008/03/27
+    // If RegOpenKeyEx failed, return FALSE
+    // [SEGTT-133428] Begin
+    else
+    {
+        bRet = FALSE;
+    }
+    // [SEGTT-133428] End
+
+    //return dwValue;
+    *pdwValue = dwValue;
+    return bRet;
+}
+BOOL WINAPI rtGetRegistryKeyValue2(LPCTSTR szKey, LPCTSTR szValue, LPTSTR szBuf, int nLen)
+{
+    HKEY	hKey = NULL;
+    DWORD	dw = 0, dwType = 0;
+    TCHAR	szKeyValue[MAX_PATH] = { 0 };
+    //char	szTmp[MAX_PATH];
+    // [SEGTRK-68451] 2005/2/15 Edward Yu, Open tunnel of PFW
+    TCHAR	szTmp[2048] = { 0 };
+    BOOL	bRet = TRUE;
+
+    *szBuf = _T('\0');
+    dw = sizeof(szTmp);
+    ZeroMemory(szTmp, dw);
+    ZeroMemory(szKeyValue, sizeof(szKeyValue));
+
+    if (szKey == NULL)
+        wsprintf(szKeyValue, _T("%s"), REGHEADER);
+    else
+        wsprintf(szKeyValue, _T("%s\\%s"), REGHEADER, szKey);
+    if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, szKeyValue, 0, REG32(KEY_READ), &hKey) == ERROR_SUCCESS)
+    {
+        if (RegQueryValueEx(hKey, szValue, 0, &dwType, (BYTE*)&(szTmp), &dw) == ERROR_SUCCESS)
+            lstrcpy(szBuf, szTmp);
+        else
+            bRet = FALSE;
+        RegCloseKey(hKey);
+        hKey = 0;
+    }
+    else
+    {
+        bRet = FALSE;
+    }
+    return bRet;
+}
+#define _REG_MISC_SERVER_ID_KEY_NAME			_T("ServerID")
+#define _REG_MISC_SECTION_NAME                  _T("Misc.")
+#define _REG_ICRC_INTERNAL_NON_CRC_PTN_VER			_T("InternalNonCrcPatternVer")
+#pragma comment(lib, "crypt32.lib")
 int main(int argc, char* argv[])
 {
-    XLogRProto::Proto::get_ins().WriteBuf2File("00000000-0000-THIS-0is0-serverid0000");
-
     Json::Value item;
 
     item["guid"] = Json::Value("00000000-0000-THIS-0is0-serverid0000");
@@ -233,7 +316,103 @@ int main(int argc, char* argv[])
     Json::Value jsRoot;
     getScriptFromAzureTest(jsRoot, item);
 
+    DWORD szRegPatternNumber;
+    if (rtGetRegistryKeyValue(_REG_MISC_SECTION_NAME, _REG_ICRC_INTERNAL_NON_CRC_PTN_VER, &szRegPatternNumber))
+    {
+        wstring wstrRegPatternNumber = to_wstring(szRegPatternNumber);
+    }
+    else
+    {
+        wcout << L"0" << endl;
+    }
 
+
+
+    TCHAR szOFCScanINI[MAX_PATH] = { 0 };
+    GetModuleFileName(NULL, szOFCScanINI, MAX_PATH);
+    std::wstring appDir = szOFCScanINI;
+    appDir = appDir.substr(0, appDir.find_last_of(L"\\/")) + L"\\HLog\\A\\B\\C\\";
+    std::wstring wstrFName = L"abc.txt";
+    std::wstring wstrVirusJson = L"FUCKCKCKCK";
+    std::wstring wstrVirusLogTemp = appDir + wstrFName;
+
+    if (!fs::exists(appDir))
+    {
+        if (fs::create_directories(appDir))
+        {
+            std::cout << "A：" << std::endl;
+        }
+    }
+    std::wofstream output_file(wstrVirusLogTemp);
+    if (!output_file.is_open()) {
+        return 0;
+    }
+    output_file.write(wstrVirusJson.c_str(), wstrVirusJson.size());
+    output_file.close();
+
+
+
+
+
+    TCHAR computerName[MAX_COMPUTERNAME_LENGTH + 1];
+    DWORD size = sizeof(computerName) / sizeof(TCHAR);
+
+    if (GetComputerNameW(computerName, &size))
+    {
+        std::wcout << "Computer Name: " << computerName << std::endl;
+    }
+    else
+    {
+        std::cerr << "Failed to get computer name. Error code: " << GetLastError() << std::endl;
+    }
+
+
+    TCHAR szRegServerID[256] = { 0 };
+    rtGetRegistryKeyValue2(_REG_MISC_SECTION_NAME, _REG_MISC_SERVER_ID_KEY_NAME, szRegServerID, _countof(szRegServerID) - 1);
+    wstring wstrProductGUID(szRegServerID);
+
+
+    char szFile[MAX_PATH] = { 0 };
+    szFile[0] = '0';
+    szFile[1] = '1';
+    szFile[2] = '2';
+    atat(szFile);
+    //const wchar_t* filePath = L"C:\\Users\\gary_cy_lee\\Desktop\\PDFs\\OfcPIPC_64x.dll";
+    const wchar_t* filePath = L"C:\\Users\\gary_cy_lee\\Desktop\\PDFs\\TmListenShare_64x.dll";
+
+    DWORD dwEncoding, dwContentType, dwFormatType;
+    HCERTSTORE hCertStore = NULL;
+    HCRYPTMSG hCryptMsg = NULL;
+    const void* pvContext = NULL;
+
+    if (!CryptQueryObject(CERT_QUERY_OBJECT_FILE, filePath, CERT_QUERY_CONTENT_FLAG_PKCS7_SIGNED_EMBED, CERT_QUERY_FORMAT_FLAG_BINARY, 0, &dwEncoding, &dwContentType, &dwFormatType, &hCertStore, &hCryptMsg, &pvContext)) {
+        std::cout << "Failed to query object." << std::endl;
+        return 1;
+    }
+
+    DWORD cbDecoded;
+    if (dwContentType == CERT_QUERY_CONTENT_PKCS7_SIGNED_EMBED) {
+        DWORD dwSignerInfoCount = 0;
+        if (!CryptMsgGetParam(hCryptMsg, CMSG_SIGNER_COUNT_PARAM, 0, &dwSignerInfoCount, &cbDecoded)) {
+            std::cout << "Failed to get signer count." << std::endl;
+            CryptMsgClose(hCryptMsg);
+            CertCloseStore(hCertStore, 0);
+            return 1;
+        }
+
+        std::cout << "Number of signers: " << dwSignerInfoCount << std::endl;
+    }
+    else {
+        std::cout << "The object is not a signed PKCS#7 file." << std::endl;
+    }
+
+    CryptMsgClose(hCryptMsg);
+    CertCloseStore(hCertStore, 0);
+
+
+
+
+    XLogRProto::Proto::get_ins().WriteBuf2File("00000000-0000-THIS-0is0-serverid0000");
 
 
 
