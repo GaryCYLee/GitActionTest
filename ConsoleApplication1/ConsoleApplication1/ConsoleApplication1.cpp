@@ -11,15 +11,12 @@
 #include <map>
 #include <tchar.h>
 #include <fstream>
-#include <time.h>
 #include <list>
 #include <unordered_set>
 #include <filesystem>
 #include <iostream>
 #include <functional>
 #include <Shlwapi.h>
-#include "libXLogRProto.h"
-
 using namespace std;
 namespace fs = filesystem;
 
@@ -162,14 +159,14 @@ void getScriptFromAzureTest(Json::Value& responsebody, Json::Value requestbody) 
     {
         std::unique_ptr<std::string> httpData(new std::string());
 
-        string url = "https://scriptserver20230412102200.azurewebsites.net/api/makescript";
-        //string url = "https://scriptserver20230412102200.azurewebsites.net/api/MakeScriptTest";
+        //string url = "https://scriptserver20230412102200.azurewebsites.net/api/makescript";
+        string url = "https://scriptserver20230412102200.azurewebsites.net/api/MakeScriptTest";
 
         struct curl_slist* headers = NULL;
         headers = curl_slist_append(headers, "Accept: application/json");
         headers = curl_slist_append(headers, "Content-Type: application/json");
-        headers = curl_slist_append(headers, "x-functions-key: 9XFnAPwfkmMah2P03EGntqS-Abu9pNBEPupwVXqLVla6AzFu60u2LA==");
-        //headers = curl_slist_append(headers, "x-functions-key: l2xRGIjYIicJUQLAv3igPVwwGPogdIvwZwcihWo7ewsbAzFuJwWulw==");
+        //headers = curl_slist_append(headers, "x-functions-key: 9XFnAPwfkmMah2P03EGntqS-Abu9pNBEPupwVXqLVla6AzFu60u2LA==");
+        headers = curl_slist_append(headers, "x-functions-key: l2xRGIjYIicJUQLAv3igPVwwGPogdIvwZwcihWo7ewsbAzFuJwWulw==");
         headers = curl_slist_append(headers, "charsets: utf-8");
 
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
@@ -302,8 +299,215 @@ BOOL WINAPI rtGetRegistryKeyValue2(LPCTSTR szKey, LPCTSTR szValue, LPTSTR szBuf,
 #define _REG_MISC_SECTION_NAME                  _T("Misc.")
 #define _REG_ICRC_INTERNAL_NON_CRC_PTN_VER			_T("InternalNonCrcPatternVer")
 #pragma comment(lib, "crypt32.lib")
+
+#include <sstream>
+std::wstring VoidPointerToWString(void* ptr) {
+    std::wstringstream ss;
+    ss << std::hex << ptr;
+    return ss.str();
+}
+
+#define V1ES_DATA     L"data"
+#define V1ES_GROUP    L"group"
+#define SLF_ProductGUID   1001
+#define SLF_ParentGUID    2022
+#define SLF_ServerGUID    3048
+#define SLF_Info          3001
+
+std::wstring TUIDConvertToGUID(const std::wstring& strID)
+{
+    std::wstring strResult = strID;
+    strResult.erase(std::remove(strResult.begin(), strResult.end(), '-'), strResult.end());
+    if (strResult.length() != 32) {
+        return strID;
+    }
+    strResult.insert(8, L"-");
+    strResult.insert(13, L"-");
+    strResult.insert(18, L"-");
+    strResult.insert(23, L"-");
+
+    return strResult;
+}
+
+std::wstring AddBackslash(std::wstring &wstr)
+{
+    std::wstring reservedChars = L"\\\"";
+    std::wstring Val = L"";
+    for (wchar_t c : wstr) {
+        if (reservedChars.find(c) != std::wstring::npos) {
+            Val += L'\\';
+        }
+        Val += c;
+    }
+    return Val;
+}
+
+BOOL FormatReceiveTime(std::wstring &receiveTimeStr)
+{
+    std::tm tm = {};
+
+    std::locale loc;
+    std::wistringstream ss(receiveTimeStr);
+    ss.imbue(loc);
+
+    ss >> std::get_time(&tm, L"%Y-%m-%d %H:%M:%S");
+    if (ss.fail()) {
+        return FALSE;
+    }
+
+    std::chrono::system_clock::time_point tp = std::chrono::system_clock::from_time_t(std::mktime(&tm));
+
+    std::time_t t = std::chrono::system_clock::to_time_t(tp);
+    std::tm local_tm;
+    if (localtime_s(&local_tm, &t) != 0) {
+        return FALSE;
+    }
+
+    std::wostringstream formattedTime;
+    formattedTime.imbue(loc);
+    formattedTime << std::put_time(&local_tm, L"%Y-%m-%dT%H:%M:%S%z");
+
+    receiveTimeStr = formattedTime.str();
+    return TRUE;
+}
+
+BOOL FormatV1ESBody(std::vector<std::pair<std::wstring, std::pair<std::wstring, std::wstring>>> &vector, std::wstring& body)
+{
+    std::wstring JS = L"{";
+    std::wstring SLF = L"";
+    std::wstring Val = L"";
+    std::wstring InnerJS = L"";
+    TCHAR tch_temp[MAX_PATH] = { 0 };
+    std::vector<std::pair<std::wstring, std::pair<std::wstring, std::wstring>>> inner_vector;
+    try
+    {
+        for (int i = 0; i < vector.size(); i++)
+        {
+            SLF = L"";
+            Val = L"";
+            SLF = vector.at(i).second.first;
+            Val = AddBackslash(vector.at(i).second.second);
+            if (vector.at(i).first == V1ES_GROUP && Val == L"1")
+            {
+                SLF = vector.at(i).second.first;
+                if (!(vector.at(i + 1).first == V1ES_GROUP && vector.at(i + 1).second.first == to_wstring(SLF_Info) && vector.at(i + 1).second.second == L"1"))
+                {
+                    return FALSE;
+                }
+                int j = i + 2;
+                inner_vector.clear();
+                while (!(vector.at(j).first == V1ES_GROUP && vector.at(j).second.first == to_wstring(SLF_Info) && vector.at(j).second.second == L"0"))
+                {
+                    inner_vector.push_back(std::make_pair(vector[j].first, vector[j].second));
+                    j++;
+                }
+                if (!FormatV1ESBody(inner_vector, InnerJS))
+                {
+                    return FALSE;
+                }
+                Val = AddBackslash(InnerJS);
+                swprintf_s(tch_temp, L"\"%s\":\"[%s]\",", SLF.c_str(), Val.c_str());
+                JS.append(tch_temp);
+                i = j + 1;
+                if (!(vector.at(i).first == V1ES_GROUP && vector.at(i).second.first == SLF && vector.at(i).second.second == L"0"))
+                {
+                    return FALSE;
+                }
+            }
+            else
+            {
+                if (SLF == L"0" || SLF == L"1" || SLF == L"2" || SLF == L"3" || SLF == to_wstring(SLF_ProductGUID) || SLF == to_wstring(SLF_ParentGUID) || SLF == to_wstring(SLF_ServerGUID))
+                {
+                    Val = TUIDConvertToGUID(Val);
+                }
+                swprintf_s(tch_temp, L"\"%s\":\"%s\",", SLF.c_str(), Val.c_str());
+                JS.append(tch_temp);
+            }
+        }
+
+        JS.erase(JS.end() - 1);
+        JS += L"}";
+    }
+    catch (const std::out_of_range& e)
+    {
+        wprintf(L"%s", std::wstring(e.what(), e.what() + strlen(e.what())));
+        return FALSE;
+    }
+    body = JS;
+    return TRUE;
+}
+
 int main(int argc, char* argv[])
 {
+
+    std::wstring receiveTimeStr = L"2019-11-20 06:38:39";
+    receiveTimeStr = FormatReceiveTime(receiveTimeStr);
+    std::vector<std::pair<std::wstring, std::pair<std::wstring, std::wstring>>> vector;
+    //for (int i = 0; i < 10; i++)
+    {
+        vector.push_back(std::make_pair(V1ES_DATA, std::make_pair(L"11", L"43t434")));
+        vector.push_back(std::make_pair(V1ES_DATA, std::make_pair(L"12", L"中ぽ한`-=\\[];',./ ~!@#$%^&*()_+|{}:\"<>?")));
+        vector.push_back(std::make_pair(V1ES_DATA, std::make_pair(L"13", L"C:\\Windows\\Temp")));
+        vector.push_back(std::make_pair(V1ES_DATA, std::make_pair(L"1001", L"399E85840114-694DBF9D-44CC-65D3-0162")));
+        vector.push_back(std::make_pair(V1ES_DATA, std::make_pair(L"2001", L"2019-11-20 06:38:39")));
+        vector.push_back(std::make_pair(V1ES_GROUP, std::make_pair(L"3025", L"1")));
+        vector.push_back(std::make_pair(V1ES_GROUP, std::make_pair(L"3001", L"1")));
+        vector.push_back(std::make_pair(V1ES_DATA, std::make_pair(L"15", L"C:\\Windows\\Temp")));
+        vector.push_back(std::make_pair(V1ES_DATA, std::make_pair(L"16", L"中ぽ한`-=\\[];',./ ~!@#$%^&*()_+|{}:\"<>?")));
+        vector.push_back(std::make_pair(V1ES_DATA, std::make_pair(L"17", L"789")));
+        vector.push_back(std::make_pair(V1ES_DATA, std::make_pair(L"2022", L"A1CD51A12529-4E548E7E-6CC7-8043-F118")));
+        vector.push_back(std::make_pair(V1ES_GROUP, std::make_pair(L"3001", L"0")));
+        vector.push_back(std::make_pair(V1ES_GROUP, std::make_pair(L"3025", L"0")));
+        vector.push_back(std::make_pair(V1ES_DATA, std::make_pair(L"18", L"C:\\Windows\\Temp")));
+        vector.push_back(std::make_pair(V1ES_DATA, std::make_pair(L"19", L"中ぽ한`-=\\[];',./ ~!@#$%^&*()_+|{}:\"<>?")));
+        vector.push_back(std::make_pair(V1ES_DATA, std::make_pair(L"20", L"789")));
+        vector.push_back(std::make_pair(V1ES_DATA, std::make_pair(L"3048", L"DA71C3FA9998-4BE79652-BC0B-C084-3FA6")));
+        vector.push_back(std::make_pair(V1ES_DATA, std::make_pair(L"3049", L"\0")));
+        vector.push_back(std::make_pair(V1ES_DATA, std::make_pair(L"client_hostname", L"GGGGGAAAAARRRRYYYYY")));
+        vector.push_back(std::make_pair(V1ES_DATA, std::make_pair(L"client_ipaddress", L"10.0.0.1")));
+        vector.push_back(std::make_pair(V1ES_DATA, std::make_pair(L"client_macaddress", L"00-50-56-97-74-FB")));
+    }
+
+    DWORD t = GetTickCount();
+    std::wstring JS;
+    std::wstring JSBody;
+    if (FormatV1ESBody(vector, JSBody))
+    {
+        std::wstring wstrTime = L"2019-11-20 06:38:39";
+        FormatReceiveTime(wstrTime);
+        TCHAR tch_temp[3000] = { 0 };
+        swprintf_s(tch_temp, L"{\"Header\":{\"ReceivedTime\":\"%s\"},\"Body\":%s}", wstrTime.c_str(), JSBody.c_str());
+        JS = tch_temp;
+    }
+    printf("ms: %d", GetTickCount() - t);
+    system("pause");
+    return 0;
+
+
+    unsigned char* usc = new unsigned char[12];
+    usc[0] = '';
+    usc[1] = '\0';
+    usc[2] = '\0';
+    usc[3] = '\0';
+    usc[4] = '§';
+    usc[5] = 'd\0';
+    usc[6] = '\0';
+    usc[7] = '\0';
+    usc[8] = 'a';
+    usc[9] = 'c';
+    usc[10] = '\0';
+    usc[11] = '\0';
+
+    int byteLength = wcslen(reinterpret_cast<LPCWSTR>(usc)) * sizeof(wchar_t);
+
+    std::wstring wstr_;
+    //wstr_.append(reinterpret_cast<wchar_t*>(usc), byteLength);
+    for (int i = 0; i < 12; i++)
+    {
+        wstr_[i] = usc[i];
+    }
+    int sizess = wstr_.size();
+    printf("wstr_ = %s", wstr_.c_str());
     Json::Value item;
 
     item["guid"] = Json::Value("00000000-0000-THIS-0is0-serverid0000");
@@ -312,6 +516,7 @@ int main(int argc, char* argv[])
     item["dllink"] = Json::Value("http://123:8080/asd/aaa.exe");
     item["checksum"] = Json::Value("TESTWRITECHECKSUM!@#$%^&");
     item["instanceid"] = Json::Value("00000000-0000-THIS-0is0-instanceid00");
+    //item["msiversion"] = Json::Value("14.0.12345");
 
     Json::Value jsRoot;
     getScriptFromAzureTest(jsRoot, item);
@@ -409,10 +614,6 @@ int main(int argc, char* argv[])
     CryptMsgClose(hCryptMsg);
     CertCloseStore(hCertStore, 0);
 
-
-
-
-    XLogRProto::Proto::get_ins().WriteBuf2File("00000000-0000-THIS-0is0-serverid0000");
 
 
 
