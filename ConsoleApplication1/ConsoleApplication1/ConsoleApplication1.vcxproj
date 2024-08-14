@@ -111,7 +111,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\GitActionTest\ConsoleApplication1\jsoncpp\include\json;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <Optimization>Disabled</Optimization>
     </ClCompile>
@@ -120,7 +120,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(SolutionDir)ConsoleApplication1\libXLogRProto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)ConsoleApplication1\libXLogRProto.lib;$(SolutionDir)jsoncpp\lib\$(Platform)\$(Configuration)\json_libmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -167,7 +167,6 @@
     <Import Project="..\packages\curl-vc140-static-32_64.7.53.0\build\native\curl-vc140-static-32_64.targets" Condition="Exists('..\packages\curl-vc140-static-32_64.7.53.0\build\native\curl-vc140-static-32_64.targets')" />
     <Import Project="..\packages\openssl-vc140-static-32_64.1.1.0\build\native\openssl-vc140-static-32_64.targets" Condition="Exists('..\packages\openssl-vc140-static-32_64.1.1.0\build\native\openssl-vc140-static-32_64.targets')" />
     <Import Project="..\packages\curlcpp-vc140-static-32_64.1.0.2\build\native\curlcpp-vc140-static-32_64.targets" Condition="Exists('..\packages\curlcpp-vc140-static-32_64.1.0.2\build\native\curlcpp-vc140-static-32_64.targets')" />
-    <Import Project="..\packages\jsoncpp-vc140-static-32_64.1.8.0\build\native\jsoncpp-vc140-static-32_64.targets" Condition="Exists('..\packages\jsoncpp-vc140-static-32_64.1.8.0\build\native\jsoncpp-vc140-static-32_64.targets')" />
     <Import Project="..\packages\cpprestsdk.v140.windesktop.msvcstl.dyn.rt-dyn.2.9.1\build\native\cpprestsdk.v140.windesktop.msvcstl.dyn.rt-dyn.targets" Condition="Exists('..\packages\cpprestsdk.v140.windesktop.msvcstl.dyn.rt-dyn.2.9.1\build\native\cpprestsdk.v140.windesktop.msvcstl.dyn.rt-dyn.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -183,7 +182,6 @@
     <Error Condition="!Exists('..\packages\curl-vc140-static-32_64.7.53.0\build\native\curl-vc140-static-32_64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\curl-vc140-static-32_64.7.53.0\build\native\curl-vc140-static-32_64.targets'))" />
     <Error Condition="!Exists('..\packages\openssl-vc140-static-32_64.1.1.0\build\native\openssl-vc140-static-32_64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\openssl-vc140-static-32_64.1.1.0\build\native\openssl-vc140-static-32_64.targets'))" />
     <Error Condition="!Exists('..\packages\curlcpp-vc140-static-32_64.1.0.2\build\native\curlcpp-vc140-static-32_64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\curlcpp-vc140-static-32_64.1.0.2\build\native\curlcpp-vc140-static-32_64.targets'))" />
-    <Error Condition="!Exists('..\packages\jsoncpp-vc140-static-32_64.1.8.0\build\native\jsoncpp-vc140-static-32_64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\jsoncpp-vc140-static-32_64.1.8.0\build\native\jsoncpp-vc140-static-32_64.targets'))" />
     <Error Condition="!Exists('..\packages\cpprestsdk.v140.windesktop.msvcstl.dyn.rt-dyn.2.9.1\build\native\cpprestsdk.v140.windesktop.msvcstl.dyn.rt-dyn.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cpprestsdk.v140.windesktop.msvcstl.dyn.rt-dyn.2.9.1\build\native\cpprestsdk.v140.windesktop.msvcstl.dyn.rt-dyn.targets'))" />
   </Target>
 </Project>

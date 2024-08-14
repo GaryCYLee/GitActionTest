@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{79a074d3-fe2a-4dd7-b385-f74a04577f74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{63a89b32-4746-4c64-ab9c-88d858f6779a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="json_batchallocator.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="json_tool.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\json\assertions.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\json\autolink.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\json\config.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\json\features.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\json\forwards.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\json\json.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\json\reader.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\json\value.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\json\writer.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="json_writer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="json_reader.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="json_value.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="json_internalarray.inl">
+      <Filter>src</Filter>
+    </None>
+    <None Include="json_internalmap.inl">
+      <Filter>src</Filter>
+    </None>
+    <None Include="json_valueiterator.inl">
+      <Filter>src</Filter>
+    </None>
+  </ItemGroup>
+</Project>

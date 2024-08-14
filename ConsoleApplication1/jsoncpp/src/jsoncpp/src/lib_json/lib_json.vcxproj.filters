@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="json_reader.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="json_value.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="json_writer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\json\autolink.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\json\config.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\json\forwards.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\json\json.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\json\reader.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\json\value.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\json\writer.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\json\features.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\json\assertions.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="json_batchallocator.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="json_tool.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="json_internalarray.inl">
+      <Filter>src</Filter>
+    </None>
+    <None Include="json_internalmap.inl">
+      <Filter>src</Filter>
+    </None>
+    <None Include="json_valueiterator.inl">
+      <Filter>src</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{7e259f51-eb6f-4a2d-8f74-f9d8d08a51df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{ac2a96ff-cce8-4240-91c8-fd565454ba24}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
